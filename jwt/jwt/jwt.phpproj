@@ -155,8 +155,6 @@
     <Content Include="Scripts\toastr\toastr.js" />
     <Content Include="Scripts\tools\app.js" />
     <Content Include="Scripts\tools\app2.js" />
-    <Content Include="Scripts\tools\index.html" />
-    <Content Include="Scripts\tools\index_jwt.html" />
     <Content Include="Scripts\tools\jwt.js" />
     <Content Include="Scripts\tools\mainController.js" />
     <Content Include="Scripts\tools\mainController_jwt.js" />
