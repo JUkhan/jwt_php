@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>jwt</Name>
+    <ProjectGuid>0ed116fd-1b7c-408a-91a5-4be67ed9b9c9</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>jwt</RootNamespace>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <AssemblyName>jwt</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="index.php" />
+    <Compile Include="jwt.php" />
+    <Compile Include="JwtEx.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Content\css\" />
+    <Folder Include="Content\fonts\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="Scripts\ace\" />
+    <Folder Include="Scripts\ace\snippets\" />
+    <Folder Include="Scripts\Base\" />
+    <Folder Include="Scripts\lib\" />
+    <Folder Include="Scripts\toastr\" />
+    <Folder Include="Scripts\tools\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\components.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\loading-bar.css" />
+    <Content Include="Content\css\loading-bar.min.css" />
+    <Content Include="Content\css\nv.d3.css" />
+    <Content Include="Content\css\site.css" />
+    <Content Include="Content\css\social-buttons.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="favicon.ico" />
+    <Content Include="Scripts\ace\ace.js" />
+    <Content Include="Scripts\ace\ext-beautify.js" />
+    <Content Include="Scripts\ace\ext-chromevox.js" />
+    <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
+    <Content Include="Scripts\ace\ext-emmet.js" />
+    <Content Include="Scripts\ace\ext-error_marker.js" />
+    <Content Include="Scripts\ace\ext-keybinding_menu.js" />
+    <Content Include="Scripts\ace\ext-language_tools.js" />
+    <Content Include="Scripts\ace\ext-linking.js" />
+    <Content Include="Scripts\ace\ext-modelist.js" />
+    <Content Include="Scripts\ace\ext-old_ie.js" />
+    <Content Include="Scripts\ace\ext-searchbox.js" />
+    <Content Include="Scripts\ace\ext-settings_menu.js" />
+    <Content Include="Scripts\ace\ext-spellcheck.js" />
+    <Content Include="Scripts\ace\ext-split.js" />
+    <Content Include="Scripts\ace\ext-static_highlight.js" />
+    <Content Include="Scripts\ace\ext-statusbar.js" />
+    <Content Include="Scripts\ace\ext-textarea.js" />
+    <Content Include="Scripts\ace\ext-themelist.js" />
+    <Content Include="Scripts\ace\ext-whitespace.js" />
+    <Content Include="Scripts\ace\keybinding-emacs.js" />
+    <Content Include="Scripts\ace\keybinding-vim.js" />
+    <Content Include="Scripts\ace\mode-csharp.js" />
+    <Content Include="Scripts\ace\mode-css.js" />
+    <Content Include="Scripts\ace\mode-html.js" />
+    <Content Include="Scripts\ace\mode-javascript.js" />
+    <Content Include="Scripts\ace\snippets\css.js" />
+    <Content Include="Scripts\ace\snippets\html.js" />
+    <Content Include="Scripts\ace\snippets\javascript.js" />
+    <Content Include="Scripts\ace\theme-ambiance.js" />
+    <Content Include="Scripts\ace\theme-chaos.js" />
+    <Content Include="Scripts\ace\theme-chrome.js" />
+    <Content Include="Scripts\ace\theme-clouds.js" />
+    <Content Include="Scripts\ace\theme-clouds_midnight.js" />
+    <Content Include="Scripts\ace\theme-cobalt.js" />
+    <Content Include="Scripts\ace\theme-crimson_editor.js" />
+    <Content Include="Scripts\ace\theme-dawn.js" />
+    <Content Include="Scripts\ace\theme-dreamweaver.js" />
+    <Content Include="Scripts\ace\theme-eclipse.js" />
+    <Content Include="Scripts\ace\theme-github.js" />
+    <Content Include="Scripts\ace\theme-idle_fingers.js" />
+    <Content Include="Scripts\ace\theme-katzenmilch.js" />
+    <Content Include="Scripts\ace\theme-kr_theme.js" />
+    <Content Include="Scripts\ace\theme-kuroir.js" />
+    <Content Include="Scripts\ace\theme-merbivore.js" />
+    <Content Include="Scripts\ace\theme-merbivore_soft.js" />
+    <Content Include="Scripts\ace\theme-monokai.js" />
+    <Content Include="Scripts\ace\theme-mono_industrial.js" />
+    <Content Include="Scripts\ace\theme-pastel_on_dark.js" />
+    <Content Include="Scripts\ace\theme-solarized_dark.js" />
+    <Content Include="Scripts\ace\theme-solarized_light.js" />
+    <Content Include="Scripts\ace\theme-terminal.js" />
+    <Content Include="Scripts\ace\theme-textmate.js" />
+    <Content Include="Scripts\ace\theme-tomorrow.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night_blue.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night_bright.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night_eighties.js" />
+    <Content Include="Scripts\ace\theme-twilight.js" />
+    <Content Include="Scripts\ace\theme-vibrant_ink.js" />
+    <Content Include="Scripts\ace\theme-xcode.js" />
+    <Content Include="Scripts\ace\worker-coffee.js" />
+    <Content Include="Scripts\ace\worker-css.js" />
+    <Content Include="Scripts\ace\worker-html.js" />
+    <Content Include="Scripts\ace\worker-javascript.js" />
+    <Content Include="Scripts\ace\worker-json.js" />
+    <Content Include="Scripts\ace\worker-lua.js" />
+    <Content Include="Scripts\ace\worker-php.js" />
+    <Content Include="Scripts\ace\worker-xml.js" />
+    <Content Include="Scripts\ace\worker-xquery.js" />
+    <Content Include="Scripts\Base\app.js" />
+    <Content Include="Scripts\Base\authInterceptorService.js" />
+    <Content Include="Scripts\Base\authService.js" />
+    <Content Include="Scripts\Base\BaseCtrl.js" />
+    <Content Include="Scripts\Base\BaseSvc.js" />
+    <Content Include="Scripts\Base\PersonCtrl.js" />
+    <Content Include="Scripts\lib\angular-animate.min.js" />
+    <Content Include="Scripts\lib\angular-animate.min.js.map" />
+    <Content Include="Scripts\lib\angular-cookies.min.js" />
+    <Content Include="Scripts\lib\angular-cookies.min.js.map" />
+    <Content Include="Scripts\lib\angular-local-storage.min.js" />
+    <Content Include="Scripts\lib\angular-resource.min.js" />
+    <Content Include="Scripts\lib\angular-resource.min.js.map" />
+    <Content Include="Scripts\lib\angular-sanitize.min.js" />
+    <Content Include="Scripts\lib\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\lib\angular-signalr-hub.js" />
+    <Content Include="Scripts\lib\angular-ui-router.min.js" />
+    <Content Include="Scripts\lib\angular.min.js" />
+    <Content Include="Scripts\lib\angular.min.js.map" />
+    <Content Include="Scripts\lib\angularui.js" />
+    <Content Include="Scripts\lib\bootstrap.min.js" />
+    <Content Include="Scripts\lib\d3.min.js" />
+    <Content Include="Scripts\lib\jquery.form.js" />
+    <Content Include="Scripts\lib\jquery.min.js" />
+    <Content Include="Scripts\lib\jquery.sparkline.js" />
+    <Content Include="Scripts\lib\loading-bar.min.js" />
+    <Content Include="Scripts\lib\traceur.js" />
+    <Content Include="Scripts\lib\typedarray.js" />
+    <Content Include="Scripts\toastr\toastr.css" />
+    <Content Include="Scripts\toastr\toastr.js" />
+    <Content Include="Scripts\tools\app.js" />
+    <Content Include="Scripts\tools\app2.js" />
+    <Content Include="Scripts\tools\index.html" />
+    <Content Include="Scripts\tools\index_jwt.html" />
+    <Content Include="Scripts\tools\jwt.js" />
+    <Content Include="Scripts\tools\mainController.js" />
+    <Content Include="Scripts\tools\mainController_jwt.js" />
+    <Content Include="Scripts\tools\Site.css" />
+  </ItemGroup>
+</Project>
