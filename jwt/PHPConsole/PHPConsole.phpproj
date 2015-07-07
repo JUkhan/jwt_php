@@ -19,15 +19,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="index.php" />
-    <Compile Include="tools\Jwt_Service.php" />
-    <Compile Include="tools\Student.php" />
+    <Compile Include="tools\AppManager.php" />
+    <Compile Include="tools\CodeGen.php" />
+    <Compile Include="tools\JwtApp.php" />
+    <Compile Include="tools\JwtUtil.php" />
+    <Compile Include="tools\Layout.php" />
+    <Compile Include="tools\Navigation.php" />
+    <Compile Include="tools\StringBuilder.php" />
+    <Compile Include="tools\View.php" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Scripts\" />
+    <Folder Include="Scripts\Components\" />
+    <Folder Include="Scripts\Layouts\" />
     <Folder Include="tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="jwt.json" />
-    <Content Include="jwt.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\DEVSENSE\PHP Tools\VS$(VisualStudioVersion)\Devsense.PHP.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

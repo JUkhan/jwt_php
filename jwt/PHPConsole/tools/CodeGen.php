@@ -9,6 +9,7 @@
  * @author Jasim.Uddin
  */
 require_once('JwtUtil.php');
+require_once('StringBuilder.php');
 class CodeGen
 {
     private static $TAB1 = "\t";
@@ -28,5 +29,11 @@ class CodeGen
         JwtUtil::makeDirectory($this->root."Scripts");
         JwtUtil::makeDirectory($this->root."Scripts/Components");
         JwtUtil::makeDirectory($this->root."Scripts/Layouts");
+
+        $sb=new StringBuilder();
+        $sb->append('jukhan')->appendFormat(' full %s %s', 'jasim', 'uddin');
+        
+        JwtUtil::makeDirectory("Scripts/Components/test");
+        JwtUtil::putContent("Scripts/Components/test/test.js", $sb->toString());
     }
 }

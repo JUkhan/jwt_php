@@ -13,7 +13,7 @@ $jwtApp=new AppManager();
 
 $layout=new Layout();
 $layout->LayoutName='root007';
-//$msg= $jwtApp->addLayout($layout);
+$jwtApp->addLayout($layout);
 
 $jwtApp->generateConfig();
 
