@@ -69,9 +69,34 @@ class CodeGen
         JwtUtil::putContent($this->root . "Content/components.css", $this->componentsCSS->toString());
     }
     private function setLayout($sb){       
-        if(!JwtUtil::IsNullOrEmptyString($config['HasTemplateAuthorization'])){
-            $str=$config['HasTemplateAuthorization'];
-       }
+     
+            foreach ($this->app->Layouts as  $layout)
+            {
+                JwtUtil::makeDirectory( $this->root . "Scripts/Layouts/" . $layout->LayoutName);
+                $sb->appendLine()
+               ->append(TAB1)
+                ->appendFormat("stateprovider.state('{0}'", $this->getStateName($layout))
+                ->append(",{abstract:true,")
+                ->appendFormat(@"url:'/{0}'", item.LayoutName);
+
+                PathString = Root + string.Format("Scripts\\Layouts\\{0}\\{0}.html", item.LayoutName);
+                if (!file.FileExists(PathString))
+                {
+                    file.Write(PathString, string.Format("<h3>Layout Name : {0}</h3><div ui-view></div>", item.LayoutName));
+                }
+                sb.Append(",templateUrl:" + GetTemplatePath(string.Format("'Scripts/Layouts/{0}/{0}.html'", item.LayoutName), item.LayoutName + "__LAYOUT__"));
+
+
+                PathString = Root + string.Format("Scripts\\Layouts\\{0}\\{0}Ctrl.js", item.LayoutName);
+                if (!file.FileExists(PathString))
+                {
+                    file.Write(PathString, getEmptyControllerForLayout(item.LayoutName));
+                }
+                sb.AppendFormat(",controller:'{0}Ctrl as vm'", item.LayoutName);
+                layoutControllers.Add(item.LayoutName);
+
+                sb.Append("});");
+            }
     }
     private function setNavigation($sb){
 
@@ -87,7 +112,7 @@ class CodeGen
     }
 
      private function getTemplatePath($tentativePath, $wigenName)
-        {
+     {
             if (JwtUtil::IsNullOrEmptyString($config["HasTemplateAuthorization"]))
             {
                 return tentativePath;
@@ -99,5 +124,16 @@ class CodeGen
             }
             return sprintf( "'%s'", $path . $wigenName);
 
+      }
+      private function getStateName($layout)
+      {
+            $nameList =array();
+            $nameList[]=$layout->LayoutName;
+            while (!JwtUtil::IsNullOrEmptyString($layout->Extend))
+            {
+                $layout = $this->app->Layouts[$layout->Extend];
+                $nameList[]=$layout->LayoutName;
+            }
+            return array_reverse($nameList);
         }
 }
