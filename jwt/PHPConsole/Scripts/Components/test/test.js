@@ -1,1 +1,0 @@
-jukhan full jasim uddin

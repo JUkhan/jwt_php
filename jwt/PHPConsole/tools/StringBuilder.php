@@ -21,7 +21,7 @@ class StringBuilder
         return $this;
 	}
 	public function appendLine(){
-        $this->_string .= '\r\n';
+        $this->_string .= PHP_EOL;
         return $this;
     }
     public function appendTab(){

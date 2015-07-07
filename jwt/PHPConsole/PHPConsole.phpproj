@@ -21,6 +21,7 @@
     <Compile Include="index.php" />
     <Compile Include="tools\AppManager.php" />
     <Compile Include="tools\CodeGen.php" />
+    <Compile Include="tools\config.php" />
     <Compile Include="tools\JwtApp.php" />
     <Compile Include="tools\JwtUtil.php" />
     <Compile Include="tools\Layout.php" />
@@ -29,13 +30,17 @@
     <Compile Include="tools\View.php" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\" />
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\Components\" />
     <Folder Include="Scripts\Layouts\" />
+    <Folder Include="Scripts\Modules\" />
+    <Folder Include="Scripts\Modules\Hello\" />
     <Folder Include="tools\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="jwt.json" />
+    <Content Include="Scripts\Modules\Hello\hello.css" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\DEVSENSE\PHP Tools\VS$(VisualStudioVersion)\Devsense.PHP.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

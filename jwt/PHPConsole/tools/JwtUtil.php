@@ -48,4 +48,36 @@ class JwtUtil
             mkdir($pathName);
         }
     }
+    public static function getSubDirectories($path){
+        $ffs = scandir($path);
+        $arr=array();
+        foreach($ffs as $ff){
+            if($ff != '.' && $ff != '..'){                
+                if(is_dir($path.'/'.$ff)) {
+                    $arr[]=$ff;
+                }
+               
+            }
+        }
+        return $arr;
+    }
+    public static function IsNullOrEmptyString($question){
+        return (!isset($question) || trim($question)==='');
+    }
+
+    public static function startsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        return (substr($haystack, 0, $length) === $needle);
+    }
+
+    public static function endsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+
+        return (substr($haystack, -$length) === $needle);
+    }
 }
