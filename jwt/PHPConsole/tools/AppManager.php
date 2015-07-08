@@ -57,10 +57,10 @@ class AppManager
     public function addNavigation($navigation){
         try{
             $this->deserialize();
-            if (!isset($this->jwtApp->layouts[$navigation->NavigationName]))
+            if (!isset($this->jwtApp->Navigations[$navigation->NavigationName]))
             {
                 $navigation->_id=JwtUtil::GUID();
-                $this->jwtApp->layouts[$navigation->NavigationName] = $navigation;
+                $this->jwtApp->Navigations[$navigation->NavigationName] = $navigation;
                 $this->serialize();
             }else{
                 return "$navigation->NavigationName already exist";

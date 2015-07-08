@@ -21,19 +21,19 @@ class StringBuilder
         return $this;
 	}
 	public function appendLine(){
-        $this->_string .= PHP_EOL;
+        $this->_string .= "\r\n";
         return $this;
     }
     public function appendTab(){
-        $this->_string .= '\t';
+        $this->_string .= "\t";
         return $this;
     }
     public function appendTab2(){
-        $this->_string .= '\t\t';
+        $this->_string .= "\t\t";
         return $this;
     }
     public function appendTab3(){
-        $this->_string .= '\t\t\t';
+        $this->_string .= "\t\t\t";
         return $this;
     }
 	public function toString() {

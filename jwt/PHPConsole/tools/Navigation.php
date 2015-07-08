@@ -15,15 +15,7 @@ class Navigation
     public  $HasLayout;
     public  $ParamName ;
     public  $WidgetName ;
-    private $_views =array();
-    public $UIViews=array();
-    public function GetView() { return $this->_views; }
-    public function setView($view)
-    {        
-        if (!isset($this->_views[$view->ViewName]))
-        {
-            $this->_views[$view->ViewName] = $view;
-        }
-        
-    }
+    private $Views =array();
+   
+   
 }

@@ -1,1 +1,1 @@
-{"Name":"Abdulla","Layouts":{"root007":{"LayoutName":"root007","Extend":null,"_id":"FE218EEC-E8A0-49F1-85D2-7BE90DEC7262"}},"Navigations":null}
+{"Name":"Abdulla","Layouts":{"root007":{"LayoutName":"root007","Extend":null,"_id":"FE218EEC-E8A0-49F1-85D2-7BE90DEC7262"}},"Navigations":{"Nav1":{"_id":"89B09AD9-C6FB-43F2-898A-51A11D7A43FA","NavigationName":"Nav1","HasLayout":"root007","ParamName":null,"WidgetName":"Home"}}}

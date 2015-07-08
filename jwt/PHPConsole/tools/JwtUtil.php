@@ -9,10 +9,7 @@
  * @author JasimUddin
  */
 class JwtUtil
-{
-    public static function sayHello(){
-        return 'Hello Mamma';
-    }
+{   
 
     public static function putContent($path, $content){        
         $file=fopen($path, "w+");

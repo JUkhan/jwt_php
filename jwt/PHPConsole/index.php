@@ -4,29 +4,22 @@ require_once('/tools/JwtApp.php');
 require_once('/tools/Layout.php');
 require_once('/tools/JwtUtil.php');
 require_once('/tools/CodeGen.php');
-/*$max=json_encode(new Student);
-Jwt_Service::putContent("jwt.json", $max);
-$str= stripcslashes( Jwt_Service::getContent('jwt.json'));
-$jwt= json_decode($str);*/
+require_once('/tools/Navigation.php');
 
-function listFolderFiles($dir){
-    $ffs = scandir($dir);
-    echo '<ol>';
-    foreach($ffs as $ff){
-        if($ff != '.' && $ff != '..'){
-            echo '<li>'.$ff;
-            if(is_dir($dir.'/'.$ff)) listFolderFiles($dir.'/'.$ff);
-            echo '</li>';
-        }
-    }
-    echo '</ol>';
-}
-listFolderFiles('Scripts');
+
 $jwtApp=new AppManager();
 
 $layout=new Layout();
 $layout->LayoutName='root007';
 $jwtApp->addLayout($layout);
+
+$nav=new Navigation();
+$nav->HasLayout='root007';
+$nav->NavigationName='Nav1';
+$nav->WidgetName='Home';
+
+$jwtApp->addNavigation($nav);
+
 
 $jwtApp->generateConfig();
 //dirname("Scripts/Components/")
