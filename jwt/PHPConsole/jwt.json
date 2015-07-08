@@ -1,1 +1,1 @@
-{"Name":"app","Layouts":{"myRoot":{"LayoutName":"myRoot","Extend":null,"_id":"9B2BD76E-E0D4-4EDF-AC49-5F224B626B19"}},"Navigations":{"Nav1":{"_id":"75D406C0-743D-4BE0-9311-5A0370AD0CA4","NavigationName":"Nav1","HasLayout":"myRoot","ParamName":null,"WidgetName":"Home"}}}
+{"Name":"app","Layouts":[],"Navigations":{"Nav1":{"_id":"5F4D0B3D-B3BE-40DE-9AEB-8138B86278D5","NavigationName":"Nav1","HasLayout":null,"ParamName":null,"WidgetName":"Home"}}}

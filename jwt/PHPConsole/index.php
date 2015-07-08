@@ -10,8 +10,8 @@ require_once('/tools/Navigation.php');
 $jwtApp=new AppManager();
 
 $layout=new Layout();
-$layout->_id="9B2BD76E-E0D4-4EDF-AC49-5F224B626B19";
-$layout->LayoutName='myRoot';
+$layout->_id="7E1DCFE4-16C3-4182-8C04-74CB77C13E91";
+$layout->LayoutName='root007';
 //$jwtApp->addLayout($layout);
 
 $nav=new Navigation();
@@ -23,7 +23,7 @@ $nav->WidgetName='Home';
 
 $jwtApp->removeLayout($layout);
 
-//$jwtApp->generateConfig();
+$jwtApp->generateConfig();
 //dirname("Scripts/Components/")
 echo realpath(".") ;
 //echo basename(__DIR__); will return the current directory name only

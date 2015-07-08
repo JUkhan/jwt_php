@@ -105,7 +105,7 @@ class AppManager
         foreach ($this->jwtApp->Layouts as $item)
         {
             if ($item['Extend'] == $oldName){
-                $item['Extend'] = $oldName;
+                $item['Extend'] = $newName;
                 $this->jwtApp->Layouts[$oldName]=$item;
 
             }
@@ -127,9 +127,10 @@ class AppManager
         {
             return "$layout->LayoutName not exist.";
         }
-        $arr=&$this->jwtApp->Layouts;
-        unset($arr[$temp['LayoutName']]);
-        $this->jwtApp->Layouts=&$arr;
+       
+        unset($this->jwtApp->Layouts[$temp['LayoutName']]);
+        $this->updateParentLayout($temp['LayoutName'], NULL);
+        $this->serialize();
         $this->generateConfig();
         return "Successfully Removed.";
     }
