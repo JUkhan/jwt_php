@@ -1,7 +1,7 @@
 
 import Home from 'Scripts/Components/Home/HomeSvc.js';
 
-var moduleName='Abdulla.services';
+var moduleName='app.services';
 
 angular.module(moduleName,[])
 .factory('HomeSvc', Home);

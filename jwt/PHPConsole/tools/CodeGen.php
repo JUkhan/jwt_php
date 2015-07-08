@@ -167,7 +167,7 @@ class CodeGen
                 $PathString =$this->root . sprintf("Scripts/Components/%s/%s.html",  $item['WidgetName'], $item['WidgetName']);
                 if (JwtUtil::fileExists($PathString))
                 {
-                    $sb->append(",templateUrl:" + $this->getTemplatePath(sprintf("'Scripts/Components/%s/%s.html'",  $item['WidgetName'], $item['WidgetName']),  $item['WidgetName']));
+                    $sb->append(",templateUrl:" . $this->getTemplatePath(sprintf("'Scripts/Components/%s/%s.html'",  $item['WidgetName'], $item['WidgetName']),  $item['WidgetName']));
                 }
                 $PathString = $this->root . sprintf("Scripts/Components/%s/%sCtrl.js",  $item['WidgetName'], $item['WidgetName']);
                 if (JwtUtil::fileExists($PathString))

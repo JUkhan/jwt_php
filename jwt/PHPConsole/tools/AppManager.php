@@ -53,7 +53,94 @@ class AppManager
             return $e->getMessage();
         }
     }
-    
+    private function array_find($arr, $id){
+        foreach($arr as $item){
+            if($item['_id']==$id){
+                return $item;
+            }
+        }
+        return null;
+    }
+    public function updateLayout($layout)
+    {           
+        try
+        { 
+            
+            $this->deserialize();
+            $temp = $this->array_find($this->jwtApp->Layouts, $layout->_id);           
+            if ($temp== null)
+            {
+                return "$layout->LayoutName not exist.";
+            }
+            $lname=$temp["LayoutName"];
+            $flag=FALSE;
+            if (!JwtUtil::IsNullOrEmptyString($layout->LayoutName) && ($layout->LayoutName != $temp['LayoutName'])){
+                JwtUtil::rename($this->rootPath . "Scripts/Layouts/", $layout->LayoutName, $temp['LayoutName']);
+                $flag=TRUE;
+            }
+            $this->updateParentLayout($temp['LayoutName'], $layout->LayoutName);
+
+            $temp['LayoutName'] = $layout->LayoutName;
+            $temp['Extend'] = $layout->Extend;
+            $this->jwtApp->Layouts[$lname]=$temp;
+            if ($flag){
+                $this->jwtApp->Layouts[$layout->LayoutName]=$temp;
+                unset($this->jwtApp->Layouts[$lname]);
+            }
+            $this->serialize();
+            return "Successfully Updted.";
+            
+        }
+        catch (Exception $ex)
+        {
+            
+            return $ex->getMessage();
+        }
+    }
+
+    public function updateParentLayout($oldName, $newName)
+    {
+        
+        if ($oldName == $newName) return;
+        foreach ($this->jwtApp->Layouts as $item)
+        {
+            if ($item['Extend'] == $oldName){
+                $item['Extend'] = $oldName;
+                $this->jwtApp->Layouts[$oldName]=$item;
+
+            }
+        }
+        
+        foreach ($this->jwtApp->Navigations as $item)
+        {
+            if ($item['HasLayout'] == $oldName){
+                $item['HasLayout'] = $newName;
+                $this->jwtApp->Navigations[$item["NavigationName"]]=$item;
+            }
+        }
+        
+    }
+    public function removeLayout($layout){
+        $this->deserialize();
+        $temp = $this->array_find($this->jwtApp->Layouts, $layout->_id);           
+        if ($temp== null)
+        {
+            return "$layout->LayoutName not exist.";
+        }
+        $arr=&$this->jwtApp->Layouts;
+        unset($arr[$temp['LayoutName']]);
+        $this->jwtApp->Layouts=&$arr;
+        $this->generateConfig();
+        return "Successfully Removed.";
+    }
+    public function GetLayoutList(){
+        $this->deserialize();
+        $arr=array();
+        foreach( $this->jwtApp->Layouts as $item){
+            $arr[]=$item;
+        }
+        return $arr;
+    }
     public function addNavigation($navigation){
         try{
             $this->deserialize();

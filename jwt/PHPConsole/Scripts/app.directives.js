@@ -1,6 +1,6 @@
 
 
-var moduleName='Abdulla.Directives';
+var moduleName='app.Directives';
 
 angular.module(moduleName, [])
 ;

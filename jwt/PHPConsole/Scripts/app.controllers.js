@@ -1,11 +1,11 @@
 
 import Home from 'Scripts/Components/Home/HomeCtrl.js';
-import root007 from 'Scripts/Layouts/root007/root007Ctrl.js';
+import myRoot from 'Scripts/Layouts/myRoot/myRootCtrl.js';
 
-var moduleName='Abdulla.controllers';
+var moduleName='app.controllers';
 
 angular.module(moduleName,[])
 .controller('HomeCtrl', Home)
-.controller('root007Ctrl', root007);
+.controller('myRootCtrl', myRoot);
 
 export default moduleName;

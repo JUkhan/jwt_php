@@ -53,7 +53,7 @@ class JwtUtil
                 if(is_dir($path.'/'.$ff)) {
                     $arr[]=$ff;
                 }
-               
+                
             }
         }
         return $arr;
@@ -76,5 +76,37 @@ class JwtUtil
         }
 
         return (substr($haystack, -$length) === $needle);
+    }
+
+    public static function array_find($arr, $callback){
+        foreach($arr as $item){
+            if($callback($item)==TRUE){
+                return $item;
+            }
+        }
+        return null;
+    }
+    public static function rename($pathx, $newName, $oldName)
+    { 
+        $path=$pathx . $oldName;
+        if (!JwtUtil::folderExists($path)) return;
+        if(JwtUtil::fileExists($path ."/". $oldName . ".html")){
+            rename($path ."/". $oldName . ".html", $path ."/". $newName . ".html");
+            unlink($path ."/". $oldName . ".html");
+        } 
+        if(JwtUtil::fileExists($path ."/". $oldName . "Ctrl.js")){
+            rename($path ."/". $oldName . "Ctrl.js", $path ."/". $newName . "Ctrl.js");
+            unlink($path ."/". $oldName . "Ctrl.js");
+        }  
+        if(JwtUtil::fileExists($path ."/". $oldName . "Svc.js")){
+            rename($path ."/". $oldName . "Svc.js", $path ."/". $newName . "Svc.js");
+            unlink($path ."/". $oldName . "Svc.js");
+        }  
+        if(JwtUtil::fileExists($path ."/". $oldName . ".css")){
+            rename($path ."/". $oldName . ".css", $path ."/". $newName . ".css");
+            unlink($path ."/". $oldName . ".css");
+        }  
+        rename($path, $pathx . $newName);
+       
     }
 }
