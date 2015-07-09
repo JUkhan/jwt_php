@@ -5,25 +5,33 @@ require_once('/tools/Layout.php');
 require_once('/tools/JwtUtil.php');
 require_once('/tools/CodeGen.php');
 require_once('/tools/Navigation.php');
-
+require_once('/tools/View.php');
 
 $jwtApp=new AppManager();
 
 $layout=new Layout();
-$layout->_id="7E1DCFE4-16C3-4182-8C04-74CB77C13E91";
-$layout->LayoutName='root007';
+$layout->_id="7B1C63C5-CA3B-42CE-85ED-C409C2230303";
+$layout->LayoutName='test_3';
 //$jwtApp->addLayout($layout);
 
 $nav=new Navigation();
-$nav->HasLayout='root007';
+$nav->_id="3E42FEDE-1E1E-49DE-99EA-0ABDB04964E4";
+$nav->HasLayout='root';
 $nav->NavigationName='Nav1';
-$nav->WidgetName='Home';
+$nav->WidgetName='Company_1';
+
+$view=new View();
+$view->ViewName="view1";
+$view->WidgetName="Company";
+
+$nav->Views[]=$view;
 
 //$jwtApp->addNavigation($nav);
+$jwtApp->updateNavigation($nav);
+//$jwtApp->updateLayout($layout);
+//$jwtApp->removeLayout($layout);
 
-$jwtApp->removeLayout($layout);
-
-$jwtApp->generateConfig();
+//$jwtApp->generateConfig();
 //dirname("Scripts/Components/")
 echo realpath(".") ;
 //echo basename(__DIR__); will return the current directory name only

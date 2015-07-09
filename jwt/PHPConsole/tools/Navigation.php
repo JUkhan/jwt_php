@@ -15,7 +15,7 @@ class Navigation
     public  $HasLayout;
     public  $ParamName ;
     public  $WidgetName ;
-    private $Views =array();
+    public $Views =array();
    
    
 }

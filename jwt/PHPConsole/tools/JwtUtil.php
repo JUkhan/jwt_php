@@ -92,19 +92,19 @@ class JwtUtil
         if (!JwtUtil::folderExists($path)) return;
         if(JwtUtil::fileExists($path ."/". $oldName . ".html")){
             rename($path ."/". $oldName . ".html", $path ."/". $newName . ".html");
-            unlink($path ."/". $oldName . ".html");
+            //unlink($path ."/". $oldName . ".html");
         } 
         if(JwtUtil::fileExists($path ."/". $oldName . "Ctrl.js")){
             rename($path ."/". $oldName . "Ctrl.js", $path ."/". $newName . "Ctrl.js");
-            unlink($path ."/". $oldName . "Ctrl.js");
+            //unlink($path ."/". $oldName . "Ctrl.js");
         }  
         if(JwtUtil::fileExists($path ."/". $oldName . "Svc.js")){
             rename($path ."/". $oldName . "Svc.js", $path ."/". $newName . "Svc.js");
-            unlink($path ."/". $oldName . "Svc.js");
+            //unlink($path ."/". $oldName . "Svc.js");
         }  
         if(JwtUtil::fileExists($path ."/". $oldName . ".css")){
             rename($path ."/". $oldName . ".css", $path ."/". $newName . ".css");
-            unlink($path ."/". $oldName . ".css");
+            //unlink($path ."/". $oldName . ".css");
         }  
         rename($path, $pathx . $newName);
        

@@ -127,9 +127,9 @@ class CodeGen
                 foreach ($view as $item2)
                 {
                     if ($isFirst)
-                        $sb->append("'" + $item2['ViewName'] . "':{");
+                        $sb->append("'" . $item2['ViewName'] . "':{");
                     else
-                        $sb->append(",'" + $item2['ViewName'] . "':{");
+                        $sb->append(",'" . $item2['ViewName'] . "':{");
 
                     if (!JwtUtil::IsNullOrEmptyString($item2['WidgetName']))
                     {

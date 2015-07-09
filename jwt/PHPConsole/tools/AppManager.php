@@ -39,11 +39,12 @@ class AppManager
     public function addLayout($layout){
         try{
             $this->deserialize();
-            if (!isset($this->jwtApp->Layouts[$layout->LayoutName]))
+            if (!$this->layoutExist($layout))
             {
                 $layout->_id=JwtUtil::GUID();
-                $this->jwtApp->Layouts[$layout->LayoutName] = $layout;
+                $this->jwtApp->Layouts[] = $layout;
                 $this->serialize();
+                $this->generateConfig();
             }else{
                 return "$layout->LayoutName already exist";
             }
@@ -53,9 +54,26 @@ class AppManager
             return $e->getMessage();
         }
     }
-    private function array_find($arr, $id){
-        foreach($arr as $item){
+    private function layoutExist($layout){
+        foreach($this->jwtApp->Layouts as $item){
+            if($item["LayoutName"]==$layout->LayoutName){
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    private function navigationExist($layout){
+        foreach($this->jwtApp->Navigations as $item){
+            if($item["NavigationName"]==$layout->NavigationName){
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    private function array_find($arr, $id, &$key){
+        foreach($arr as $i=>$item){
             if($item['_id']==$id){
+                $key=$i;
                 return $item;
             }
         }
@@ -65,29 +83,26 @@ class AppManager
     {           
         try
         { 
-            
+            $key=-1;
             $this->deserialize();
-            $temp = $this->array_find($this->jwtApp->Layouts, $layout->_id);           
+            $temp = $this->array_find($this->jwtApp->Layouts, $layout->_id, $key);           
             if ($temp== null)
             {
                 return "$layout->LayoutName not exist.";
             }
-            $lname=$temp["LayoutName"];
-            $flag=FALSE;
+            
             if (!JwtUtil::IsNullOrEmptyString($layout->LayoutName) && ($layout->LayoutName != $temp['LayoutName'])){
                 JwtUtil::rename($this->rootPath . "Scripts/Layouts/", $layout->LayoutName, $temp['LayoutName']);
-                $flag=TRUE;
+                
             }
-            $this->updateParentLayout($temp['LayoutName'], $layout->LayoutName);
+            $this->updateRelatedLayout($temp['LayoutName'], $layout->LayoutName);
 
             $temp['LayoutName'] = $layout->LayoutName;
             $temp['Extend'] = $layout->Extend;
-            $this->jwtApp->Layouts[$lname]=$temp;
-            if ($flag){
-                $this->jwtApp->Layouts[$layout->LayoutName]=$temp;
-                unset($this->jwtApp->Layouts[$lname]);
-            }
+            
+            $this->jwtApp->Layouts[$key]=$temp;
             $this->serialize();
+            $this->generateConfig();
             return "Successfully Updted.";
             
         }
@@ -98,43 +113,43 @@ class AppManager
         }
     }
 
-    public function updateParentLayout($oldName, $newName)
+    public function updateRelatedLayout($oldName, $newName)
     {
         
         if ($oldName == $newName) return;
-        foreach ($this->jwtApp->Layouts as $item)
+        foreach ($this->jwtApp->Layouts as $i=>&$item)
         {
             if ($item['Extend'] == $oldName){
                 $item['Extend'] = $newName;
-                $this->jwtApp->Layouts[$oldName]=$item;
-
+                $this->jwtApp->Layouts[$i]=$item;
             }
         }
         
-        foreach ($this->jwtApp->Navigations as $item)
+        foreach ($this->jwtApp->Navigations as $i=>&$item)
         {
             if ($item['HasLayout'] == $oldName){
                 $item['HasLayout'] = $newName;
-                $this->jwtApp->Navigations[$item["NavigationName"]]=$item;
+                $this->jwtApp->Navigations[$i]=$item;
             }
         }
         
     }
     public function removeLayout($layout){
         $this->deserialize();
-        $temp = $this->array_find($this->jwtApp->Layouts, $layout->_id);           
+        $key=-1;
+        $temp = $this->array_find($this->jwtApp->Layouts, $layout->_id, $key);           
         if ($temp== null)
         {
             return "$layout->LayoutName not exist.";
         }
-       
-        unset($this->jwtApp->Layouts[$temp['LayoutName']]);
+        
+        unset($this->jwtApp->Layouts[$key]);
         $this->updateParentLayout($temp['LayoutName'], NULL);
         $this->serialize();
         $this->generateConfig();
         return "Successfully Removed.";
     }
-    public function GetLayoutList(){
+    public function getLayoutList(){
         $this->deserialize();
         $arr=array();
         foreach( $this->jwtApp->Layouts as $item){
@@ -145,11 +160,12 @@ class AppManager
     public function addNavigation($navigation){
         try{
             $this->deserialize();
-            if (!isset($this->jwtApp->Navigations[$navigation->NavigationName]))
+            if (!$this->navigationExist($navigation))
             {
                 $navigation->_id=JwtUtil::GUID();
-                $this->jwtApp->Navigations[$navigation->NavigationName] = $navigation;
+                $this->jwtApp->Navigations[] = $navigation;
                 $this->serialize();
+                $this->generateConfig();
             }else{
                 return "$navigation->NavigationName already exist";
             }
@@ -159,7 +175,76 @@ class AppManager
             return $e->getMessage();
         }
     }
+    public function updateNavigation($navigation)
+    {
+        
+        $this->deserialize();
+        $key=-1;
+        $temp = $this->array_find($this->jwtApp->Navigations, $navigation->_id, $key); 
+        if ($temp == null)
+        {
+            return "$navigation->NavigationName not exist.";
+        }       
+        if (!JwtUtil::IsNullOrEmptyString($navigation->WidgetName) && ($navigation->WidgetName != $temp['WidgetName'])){
+            JwtUtil::rename($this->rootPath . "Scripts/Components/", $navigation->WidgetName, $temp['WidgetName']);            
+        }
+        
+        $this->updateRelatedNavigation($temp['WidgetName'], $navigation->WidgetName);
 
+        $temp['NavigationName'] = $navigation->NavigationName;
+        $temp['WidgetName'] = $navigation->WidgetName;
+        $temp['ParamName'] = $navigation->ParamName;
+        $temp['UIViews'] = $navigation->UIViews;
+        $temp['HasLayout'] = $navigation->HasLayout;
+        
+        $this->jwtApp->Navigations[$key]=$temp;
+        
+        $this->serialize();
+        $this->generateConfig();
+        return "Successfully Updted.";
+        
+    }
+    private function updateRelatedNavigation($oldName, $newName)
+    {
+        if ($oldName == $newName) return;
+        foreach ($this->jwtApp->Navigations as $i=>&$item)
+        {            
+            if (isset($item['Views']))
+            {
+                foreach ($item['Views'] as $v=>&$view)
+                {
+                    if ($view['WidgetName'] == $oldName){
+                        $view['WidgetName'] = $newName;                        
+                    }
+                    $item['Views'][$v]=$view;
+                }
+                //$this->jwtApp->Navigations[$item["NavigationName"]]=$item;
+            }
+            $this->jwtApp->Navigations[$i]=$item;
+
+        }
+    }
+    public function removeNavigation($navigation){
+        $this->deserialize();
+        $key=-1;
+        $temp = $this->array_find($this->jwtApp->Layouts, $navigation->_id, $key);           
+        if ($temp== null)
+        {
+            return "$navigation->NavigationName not exist.";
+        }        
+        unset($this->jwtApp->Navigations[$key]);       
+        $this->serialize();
+        $this->generateConfig();
+        return "Successfully Removed.";
+    }
+    public function getNavigationList(){
+        $this->deserialize();
+        $arr=array();
+        foreach( $this->jwtApp->Navigations as $item){
+            $arr[]=$item;
+        }
+        return $arr;
+    }
     public function generateConfig()
     {
         try

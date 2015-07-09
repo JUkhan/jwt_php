@@ -1,9 +1,9 @@
 
-import Home from 'Scripts/Components/Home/HomeSvc.js';
+import Company_1 from 'Scripts/Components/Company_1/Company_1Svc.js';
 
 var moduleName='app.services';
 
 angular.module(moduleName,[])
-.factory('HomeSvc', Home);
+.factory('Company_1Svc', Company_1);
 
 export default moduleName;
