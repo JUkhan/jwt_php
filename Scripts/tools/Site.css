@@ -162,7 +162,7 @@ xinput[type=text] {
     }
 /* splitter*/
 #main{
-   background-color: wheat;
+   background-color: #FFF;
    float: right;
    position: absolute;
    height:200px;

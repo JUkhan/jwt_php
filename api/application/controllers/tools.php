@@ -91,7 +91,31 @@ class Tools extends CI_Controller {
 		$data=$this->post();		
 		$res=$this->app->getViews($data->layoutName, $data->navName);
 		$this->load->view('json', array('output' => $res));
-		//print $res;
+		
+	}
+
+	/*EDITOT PART*/
+	public function GetItems(){
+
+		$res=$this->app->GetItems($this->input->get('name'));
+		$this->load->view('json', array('output' => $res));
+	}
+	public function GetItemDetail(){
+		
+		$res=$this->app->GetItemDetail($this->input->get('name'), $this->input->get('mode'));
+		$this->load->view('json', array('output' => $res));
+	}
+	public function GetFileContent(){
+		$res=$this->app->GetFileContent($this->input->get('mode'), $this->input->get('directoryName'), $this->input->get('fileName'));
+		$this->load->view('json', array('output' => $res));
+		
+	}
+
+	public function SaveFile(){
+		$data=$this->post();
+		$res=$this->app->SaveFile($data->mode, $data->directoryName, $data->fileName, $data->content);
+		$this->load->view('json', array('output' => $res));
+		
 	}
 }
 

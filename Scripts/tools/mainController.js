@@ -16,7 +16,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.cssList = [];
     scope.jsEditor = null;
     scope.htmlEditor = null;
-    scope.theme = localStorageService.get('theme') || 'ace/theme/twilight';
+    scope.theme = localStorageService.get('theme') || 'ace/theme/monokai';
     $timeout(function () { autoSize(); }, 1000);
     $timeout(function () {
         setJsEditor(scope);
@@ -54,7 +54,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
                 scope.changeItemValue();
                 return;
             }
-            http.get('JwtEx/GetItems/?name=' + val)
+            http.get('GetItems/?name=' + val)
             .success(function (res) {
                 scope.items = res;
                 scope.itemValue = '0';
@@ -66,7 +66,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     }
     scope.changeItemValue = function () {
         if (scope.itemValue === '0') { return; }
-        http.get('JwtEx/GetItemDetail/?name={0}&mode={1}'.format(scope.items[scope.itemValue], scope.dataMode))
+        http.get('GetItemDetail/?name={0}&mode={1}'.format(scope.items[scope.itemValue], scope.dataMode))
         .success(function (res) {
             unlocakAll();
             scope.jsList = res.js;
@@ -156,7 +156,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
         scope.jsFileName = fileName;
         previousFile=fileName;
         if (!fileName) { info('File name is required.'); return; }
-        http.get('JwtEx/GetFileContent/?mode={0}&directoryName={1}&fileName={2}'.format(scope.dataMode, scope.items[scope.itemValue], fileName))
+        http.get('GetFileContent/?mode={0}&directoryName={1}&fileName={2}'.format(scope.dataMode, scope.items[scope.itemValue], fileName))
            .success(function (data) {
                AWAIT.jsLock = 0;
                scope.jsEditor.setValue(data.data);
@@ -170,7 +170,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.saveJsFile = function () {
         if (!scope.jsFileName) { info('There is no file to be saved.'); return; }
         if (LOCK.jsLock) return;
-        http.post('JwtEx/SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.jsFileName, content: scope.jsEditor.getValue() })
+        http.post('SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.jsFileName, content: scope.jsEditor.getValue() })
         .success(function (data) {
             if (data.isSuccess) {
                 //jwtSvc.unlock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue], Name: scope.jsFileName });
@@ -237,7 +237,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.htmlLoad = function (fileName) {
         scope.htmlFileName = fileName;
         if (!fileName) { info('File name is required.'); return; }
-        http.get('JwtEx/GetFileContent/?mode={0}&directoryName={1}&fileName={2}'.format(scope.dataMode, scope.items[scope.itemValue], fileName))
+        http.get('GetFileContent/?mode={0}&directoryName={1}&fileName={2}'.format(scope.dataMode, scope.items[scope.itemValue], fileName))
            .success(function (data) {
                AWAIT.htmlLock = 0;
                scope.htmlEditor.setValue(data.data);
@@ -250,7 +250,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.saveHtmlFile = function () {
         if (!scope.htmlFileName) { info('There is no file to be saved.'); return; }
         if (LOCK.htmlLock) return;
-        http.post('JwtEx/SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.htmlFileName, content: scope.htmlEditor.getValue() })
+        http.post('SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.htmlFileName, content: scope.htmlEditor.getValue() })
         .success(function (data) {
             if (data.isSuccess) {
                 //jwtSvc.unlock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue], Name: scope.htmlFileName });
@@ -266,7 +266,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.cssLoad = function (fileName) {
         scope.cssFileName = fileName;
         if (!fileName) { info('File name is required.'); return; }
-        http.get('JwtEx/GetFileContent/?mode={0}&directoryName={1}&fileName={2}'.format(scope.dataMode, scope.items[scope.itemValue], fileName))
+        http.get('GetFileContent/?mode={0}&directoryName={1}&fileName={2}'.format(scope.dataMode, scope.items[scope.itemValue], fileName))
            .success(function (data) {
                AWAIT.cssLock = 0;
                scope.cssEditor.setValue(data.data);
@@ -279,7 +279,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.saveCssFile = function () {
         if (!scope.cssFileName) { info('There is no file to be saved.'); return; }
         if (LOCK.cssLock) return;
-        http.post('JwtEx/SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.cssFileName, content: scope.cssEditor.getValue() })
+        http.post('SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.cssFileName, content: scope.cssEditor.getValue() })
         .success(function (data) {
             if (data.isSuccess) {
                 //jwtSvc.unlock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue], Name: scope.cssFileName });

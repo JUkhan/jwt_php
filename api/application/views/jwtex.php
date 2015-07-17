@@ -22,7 +22,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="tools">Widget Relation</a></li>
+                    <li><a href="index">Widget Relation</a></li>
                     <li class="active"><a href="JwtEx">Component Builder</a></li>
                     <li><a href="JwtComponent">Component Showcase</a></li>
                 </ul>

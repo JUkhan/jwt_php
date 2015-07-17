@@ -48,11 +48,25 @@ class JwtUtil
         }
     }
     public static function getSubDirectories($path){
+         JwtUtil::log($path);
         $ffs = scandir($path);
         $arr=array();
         foreach($ffs as $ff){
             if($ff != '.' && $ff != '..'){                
                 if(is_dir($path.'/'.$ff)) {
+                    $arr[]=$ff;
+                }
+                
+            }
+        }
+        return $arr;
+    }
+     public static function getFiles($path){       
+        $ffs = scandir($path);
+        $arr=array();
+        foreach($ffs as $ff){
+            if($ff != '.' && $ff != '..'){                
+                if(!is_dir($path.'/'.$ff)) {
                     $arr[]=$ff;
                 }
                 

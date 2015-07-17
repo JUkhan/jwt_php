@@ -12,6 +12,7 @@ require_once('JwtApp.php');
 require_once('JwtUtil.php');
 require_once('CodeGen.php');
 require_once('View.php');
+require_once('JResult.php');
 class AppManager
 {
     private $defaultNavigation = "";
@@ -102,7 +103,7 @@ class AppManager
             $temp['Extend'] = $layout->Extend;
             
             $this->jwtApp->Layouts[$key]=$temp;
-            JwtUtil::log( $key.json_encode($this->jwtApp->Layouts));
+            
             $this->serialize();
             $this->generateConfig();
             return "Successfully Updted.";
@@ -322,5 +323,142 @@ class AppManager
        
         return $views;
     }
+    /* EDITOR PART */
+     public function GetItems($name)
+     {
+            
+           $list =null;
+           switch ($name)
+           {
 
+                case "Layouts":                    
+                    $list= JwtUtil::getSubDirectories($this->rootPath . "Scripts/Layouts");                   
+                    array_unshift($list,"Select a layout");
+                    break;
+                case "Widgets":
+                     
+                    $list= JwtUtil::getSubDirectories($this->rootPath  . "Scripts/Components");                   
+                    array_unshift($list,"Select a widgets");
+                    break;
+                case "Components":                    
+                    $list=JwtUtil::getSubDirectories($this->rootPath  ."Scripts/Directives");
+                    array_unshift($list,"Select a component");
+                    break;
+                case "Modules":                   
+                    $list= JwtUtil::getSubDirectories($this->rootPath  . "Scripts/Modules");
+                    array_unshift($list,"Select a module");
+                    break;
+           }
+           return $list;
+    }
+
+    public function GetItemDetail($name, $mode)
+    {
+            $list = null;
+            switch ($mode)
+            {
+                case "Base":
+                    $list = JwtUtil::getFiles($this->rootPath  . "Scripts/Base");
+                    break;
+                case "Layouts":
+                    $list = JwtUtil::getFiles($this->rootPath  .  "Scripts/Layouts/" . $name);
+                    break;
+                case "Widgets":
+                    $list = JwtUtil::getFiles($this->rootPath  .  "Scripts/Components/" . $name);
+                    break;
+                case "Components":
+                    $list = JwtUtil::getFiles($this->rootPath  .  "Scripts/Directives/" . $name);
+                    break;
+                case "Modules":
+                    $list = JwtUtil::getFiles($this->rootPath  .  "Scripts/Modules/" . $name);
+                    break;
+            }
+            
+            $res=array('js'=>array(), 'css'=>array(), 'html'=>array());
+
+            foreach ($list as $value) {
+                if(JwtUtil::endsWith($value, ".js")){
+                        $res['js'][]=$value;
+                }
+                else if(JwtUtil::endsWith($value, ".css")){
+                     $res['css'][]=$value;
+                }
+                else if(JwtUtil::endsWith($value, ".html")){
+                     $res['html'][]=$value;
+                }
+            }
+            return $res;
+    }
+
+     public function GetFileContent($mode, $directoryName, $fileName)
+     {
+            $path = $this->rootPath;            
+            $res = new JResult();
+           
+            switch ($mode)
+            {
+                case "Base":
+                    $directoryName = "base";
+                    $path .= "Scripts/Base/" . $fileName;
+                    $res->data = JwtUtil::getContent($path);
+                break;
+
+                case "Layouts":
+                    $path .= "Scripts/Layouts/$directoryName/$fileName";
+                    $res->data = JwtUtil::getContent($path);
+                    break;
+                case "Components":
+                    $path += "Scripts/Directives/$directoryName/$fileName";
+                   $res->data = JwtUtil::getContent($path);
+                    break;
+                case "Widgets":
+                    $path .= "Scripts/Components/$directoryName/$fileName";
+                   $res->data = JwtUtil::getContent($path);
+                    break;
+                case "Modules":
+                    $path .= "Scripts/Modules/$directoryName/$fileName";
+                    $res->data = JwtUtil::getContent($path);
+                    break;
+            }
+            $res->isSuccess = true;
+            $res->locked = FALSE;
+                  
+            return $res;
+    }
+     public function SaveFile($mode, $directoryName, $fileName, $content)
+        {
+            
+            $path = $this->rootPath; 
+           
+            $res = new JResult();
+           
+            switch ($mode)
+            {
+
+                case "Base":
+                    $path .= "Scripts/Base/" . $fileName;
+                    JwtUtil::putContent($path, $content);
+                    break;
+                case "Layouts":
+                    $path .=  "Scripts/Layouts/$directoryName/$fileName";
+                    JwtUtil::putContent($path, $content);
+                    break;
+                case "Components":
+                    $path .=  "Scripts/Directives/$directoryName/$fileName";
+                    fJwtUtil::putContent($path, $content);
+                    break;
+                case "Widgets":
+                    $path .=  "Scripts/Components/$directoryName/$fileName";
+                    JwtUtil::putContent($path, $content);
+                    break;
+                case "Modules":
+                    $path .=  "Scripts/Modules/$directoryName/$fileName";
+                    JwtUtil::putContent($path, $content);
+                    break;
+            }
+            $res->isSuccess = true;
+            $res->msg = "Successfully saved.";
+      
+            return $res;
+        }
 }

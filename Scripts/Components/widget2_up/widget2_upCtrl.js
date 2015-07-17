@@ -5,7 +5,7 @@ class widget2Ctrl extends BaseCtrl
 	constructor(scope, svc){
 		super(scope);
 		this.svc = svc;
-		this.title='widget2';
+		this.title='widget2 sdfsdf sdf sdfs';
 	}
 }
 

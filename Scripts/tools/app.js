@@ -1,4 +1,4 @@
-﻿angular.module("jwt2", ["ui.router", "ngResource", 'ui.bootstrap', 'SignalR','LocalStorageModule'])
+﻿angular.module("jwt2", ["ui.router", "ngResource", 'ui.bootstrap', 'LocalStorageModule'])
 
 .directive('ngEnter', function () {
     return function (scope, element, attrs) {
