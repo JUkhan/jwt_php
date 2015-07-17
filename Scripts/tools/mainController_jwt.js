@@ -75,25 +75,25 @@ app.controller('mainController', ['$scope', '$http', '$modal', function (scope, 
 
     scope.showViewsDialog = function (nav) {
 
-        http.get('GetViewList?layoutName={0}&navName={1}'.format(nav.HasLayout, nav.NavigationName))
+        http.post('GetViewList', {layoutName:nav.HasLayout,navName: nav.NavigationName})
         .success(function (res) {
-            if (res.success) {
-                scope.nvm.UIViews = res.data;
+            //if (res.success) {
+                scope.nvm.Views = res;
                 var modalInstance = modal.open({
                     templateUrl: 'myModalContent.html',
                     controller: 'ModalInstanceCtrl',
                     size: 'lg',
                     resolve: {
                         data: function () {
-                            return { views: scope.nvm.UIViews, tplList: scope.widgetList };
+                            return { views: scope.nvm.Views, tplList: scope.widgetList };
                         }
                     }
                 });
-            }
+            //}
         });
 
     }
-    scope.$on('jwt-view-update', function (e, data) { scope.nvm.UIViews = data; });
+    scope.$on('jwt-view-update', function (e, data) { scope.nvm.Views = data; });
     scope.generateConfig = function () {
         //http.get('Jwt/GenerateConfig').success(function (res) { scope.msg = res.msg;  });
     };

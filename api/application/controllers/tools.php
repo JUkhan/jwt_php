@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once('./application/libraries/tools/AppManager.php');
+
 class Tools extends CI_Controller {
     private $app=null;
 	function __construct() {
@@ -85,6 +86,12 @@ class Tools extends CI_Controller {
 	public function getWidgetList(){
 		$data=$this->app->getWidgetList();       
        $this->load->view('json', array('output' => $data));
+	}
+	public function GetViewList(){
+		$data=$this->post();		
+		$res=$this->app->getViews($data->layoutName, $data->navName);
+		$this->load->view('json', array('output' => $res));
+		//print $res;
 	}
 }
 

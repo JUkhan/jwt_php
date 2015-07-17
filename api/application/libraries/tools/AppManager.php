@@ -11,6 +11,7 @@
 require_once('JwtApp.php');
 require_once('JwtUtil.php');
 require_once('CodeGen.php');
+require_once('View.php');
 class AppManager
 {
     private $defaultNavigation = "";
@@ -195,7 +196,7 @@ class AppManager
         $temp['NavigationName'] = $navigation->NavigationName;
         $temp['WidgetName'] = $navigation->WidgetName;
         $temp['ParamName'] = $navigation->ParamName;
-        $temp['UIViews'] = $navigation->UIViews;
+        $temp['Views'] = $navigation->Views;
         $temp['HasLayout'] = $navigation->HasLayout;
         
         $this->jwtApp->Navigations[$key]=$temp;
@@ -274,6 +275,52 @@ class AppManager
             throw $ex;
         }
 
+    }
+    private function get_navigation_by_name($navName){
+         $this->deserialize();
+        
+        foreach( $this->jwtApp->Navigations as $item){
+           if($navName==$item['NavigationName']){
+                return $item;
+           }
+        }
+        return null;
+    }
+    private function get_view_by_name($arr, $viewName){
+        foreach( $arr as $item){           
+           if($viewName==$item->ViewName){
+                return $item;
+           }
+        }
+        return null;
+    }
+    public function getViews($layoutName, $navName){
+        
+        $regex="/ui-view=\"([a-zA-Z0-9_]+)\"/";
+        $input_string=JwtUtil::getContent("$this->rootPath/Scripts/Layouts/$layoutName/$layoutName.html");
+
+        $views=array();
+        if(preg_match_all($regex, $input_string, $matches_out)){
+            
+            foreach ($matches_out[1] as $value) {
+                $view=new View();
+                $view->ViewName=$value;
+                $views[]=$view;
+                 
+        }
+        
+        $nav=$this->get_navigation_by_name($navName);            
+        if($nav!=null){
+                foreach ($nav['Views'] as $item) {                     
+                    $view=$this->get_view_by_name($views, $item['ViewName']);                  
+                    if($view!=null){
+                        $view->WidgetName=$item['WidgetName'];
+                    }
+                }
+            }
+        }
+       
+        return $views;
     }
 
 }

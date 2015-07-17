@@ -19,11 +19,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="Jwt" class="navbar-brand">App Builder</a>
+                <a href="index" class="navbar-brand">App Builder</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="tools">Widget Relation</a></li>
+                    <li class="active"><a href="index">Widget Relation</a></li>
                     <li><a href="JwtEx">Component Builder</a></li>
                     <li><a href="JwtComponent">Component Showcase</a></li>
                 </ul>
