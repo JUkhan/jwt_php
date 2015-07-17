@@ -408,7 +408,7 @@ class AppManager
                     $res->data = JwtUtil::getContent($path);
                     break;
                 case "Components":
-                    $path += "Scripts/Directives/$directoryName/$fileName";
+                    $path .= "Scripts/Directives/$directoryName/$fileName";
                    $res->data = JwtUtil::getContent($path);
                     break;
                 case "Widgets":
@@ -427,7 +427,7 @@ class AppManager
     }
      public function SaveFile($mode, $directoryName, $fileName, $content)
         {
-            
+
             $path = $this->rootPath; 
            
             $res = new JResult();
@@ -444,8 +444,8 @@ class AppManager
                     JwtUtil::putContent($path, $content);
                     break;
                 case "Components":
-                    $path .=  "Scripts/Directives/$directoryName/$fileName";
-                    fJwtUtil::putContent($path, $content);
+                    $path .=  "Scripts/Directives/$directoryName/$fileName";                   
+                    JwtUtil::putContent($path, $content);
                     break;
                 case "Widgets":
                     $path .=  "Scripts/Components/$directoryName/$fileName";
@@ -460,5 +460,33 @@ class AppManager
             $res->msg = "Successfully saved.";
       
             return $res;
+        }
+        public function IsExist($name, $mode){
+               
+            $path =  $this->rootPath; 
+            switch ($mode)
+            {
+                case "Widgets":
+                    $path .= "Scripts/Components/" . $name;
+                    break;
+                case "Components":
+                    $path .=  "Scripts/Derictives/" . $name;
+                    break;
+                case "Modules":
+                     $path .=  "Scripts/Modules/" . $name;
+                    break;
+            }
+           
+            return  array( 'exist' => JwtUtil::folderExists($path)) ;
+        
+        }
+        public function CreateItem($name, $mode){
+           
+            $codeGen = new CodeGen();
+            $codeGen->has_template_authorization=$this->has_template_authorization;
+            $codeGen->app = $this->jwtApp;
+            $codeGen->root=$this->rootPath;
+            $codeGen->defaultNavigation = $this->defaultNavigation;
+            return $codeGen->CreateItem($name, $mode);
         }
 }

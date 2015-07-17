@@ -91,17 +91,12 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     }
     function createItem(name, mode) {
         overlay(1);
-        http.get('JwtEx/IsExist/?name={0}&mode={1}'.format(name, mode))
+        http.get('IsExist/?name={0}&mode={1}'.format(name, mode))
         .success(function (res) {
             if (!res.exist) {
-                http.get('JwtEx/CreateItem/?name={0}&mode={1}'.format(name, mode))
-                .success(function (res) {
-                    if (res.success) {
-                        success('Successfully generated.');
-                    }
-                    else {
-                        info(res.msg);
-                    }
+                http.get('CreateItem/?name={0}&mode={1}'.format(name, mode))
+                .success(function (res) {                    
+                    success('Successfully generated.');                   
                     overlay(0);
                 });
             }
@@ -135,7 +130,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
         }
     }
     function saveFile(mode, directoryName, fileName, content) {
-        http.post('JwtEx/SaveFile', { mode: mode, directoryName: directoryName, fileName: fileName, content: content })
+        http.post('SaveFile', { mode: mode, directoryName: directoryName, fileName: fileName, content: content })
        .success(function (data) {
            if (data.isSuccess) {
                success('Saved successfully.');
@@ -183,13 +178,13 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.addFile = function (fileName, ext) {
         //scope.jsFileName = fileName;
         if (!fileName) { info('File name is required.'); return; }
-        http.get('JwtEx/IsFileExist/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
+        http.get('IsFileExist/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
         .success(function (res) {
             if (res.exist) {
                 info('Already exist.'); return;
             }
 
-            http.get('JwtEx/AddFile/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
+            http.get('AddFile/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
                .success(function (data) {
                    if (data.isSuccess) {
                        success(data.msg);
@@ -210,7 +205,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
         //scope.jsFileName = fileName;
         if (!fileName) { info('File name is required.'); return; }
 
-        http.get('JwtEx/IsFileExist/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
+        http.get('IsFileExist/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
         .success(function (res) {
             if (!res.exist) {
                 info('File is not exist.'); return;

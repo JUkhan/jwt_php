@@ -1,1 +1,1 @@
-../Scripts/Components
+../Scripts/Directives/test101/test101.js

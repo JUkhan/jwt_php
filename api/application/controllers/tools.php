@@ -117,6 +117,16 @@ class Tools extends CI_Controller {
 		$this->load->view('json', array('output' => $res));
 		
 	}
+	public function IsExist(){
+		$res=$this->app->IsExist($this->input->get('name'), $this->input->get('mode'));
+		$this->load->view('json', array('output' => $res));
+		
+	}
+	public function CreateItem(){
+		$res= $this->app->CreateItem($this->input->get('name'), $this->input->get('mode'));
+		//$this->load->view('json', array('output' => 'created'));
+		print $res;
+	}
 }
 
 /* End of file role.php */

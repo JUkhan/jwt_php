@@ -27,9 +27,50 @@ class CodeGen
         $this->componentsCSS= new StringBuilder();
         $this->layoutControllers=array();
         $this->mControllers=array();
-        $this->log=new StringBuilder();
+        
     }
+    public function CreateItem($name, $mode)
+    {
+       
+        JwtUtil::makeDirectory($this->root."Scripts");
+        JwtUtil::makeDirectory($this->root."Scripts/Components");
+        JwtUtil::makeDirectory($this->root."Scripts/Directives");
+        JwtUtil::makeDirectory($this->root."Scripts/Modules");
 
+        $path = $this->root;
+        switch ($mode)
+        {
+            case "Widgets":
+                $path .= "Scripts/Components/" . $name;                
+                JwtUtil::makeDirectory($path); 
+                $path = $this->root . "Scripts/Components/$name/$name"."Ctrl.js";
+                JwtUtil::putContent($path, $this->getEmptyController($name));
+                $path = $this->root .  "Scripts/Components/$name/$name" . "Svc.js";
+                JwtUtil::putContent($path, $this->getEmptyService($name));
+                $path = $this->root . "Scripts/Components/$name/$name" . ".html";
+                JwtUtil::putContent($path, "<h3>widget Name : {{vm.title}}</h3>");
+
+                break;
+            case "Components":
+                $path .= "Scripts/Directives/" . $name;
+                JwtUtil::makeDirectory($path);
+                $path =  $this->root ."Scripts/Directives/$name/$name" . ".js";
+                JwtUtil::putContent($path, $this->getEmptyDirective($name));
+                $path =  $this->root ."Scripts/Directives/$name/$name" . ".html";
+                JwtUtil::putContent($path, "<b>Hello world</b>");
+                $path =  $this->root . "Scripts/Directives/$name/$name" . ".css";
+                JwtUtil::putContent($path, "/*css goes here*/");
+                break;
+            case "Modules":
+                if ($name == "app") return;
+                $path .= "Scripts/Modules/" . $name;
+                JwtUtil::makeDirectory($path);
+                $path = $this->root . "Scripts/Modules/$name/$name" . ".js";
+                JwtUtil::putContent($path, $this->getEmptyModule($name));
+                break;
+        }
+        return " mamma kam oia geche";
+    }
     public function execute(){
         JwtUtil::makeDirectory($this->root."Scripts");
         JwtUtil::makeDirectory($this->root."Scripts/Components");
@@ -331,6 +372,21 @@ class CodeGen
         $res->append("export default moduleName;");
         JwtUtil::putContent($this->root . "Scripts/app.directives.js", $res->toString());
     }
+    private function getEmptyModule($name)
+        {
+            $res = new StringBuilder();
+
+             $res->append("//import sample from 'Scripts/Modules/$name/sample.js';");
+             $res->appendLine();
+             $res->appendLine();
+             $res->append("var moduleName='$name'; ");
+             $res->appendLine();
+             $res->append("angular.module(moduleName, []);");
+             $res->appendLine();
+             $res->append("export default moduleName;");
+             $res->appendLine();
+            return  $res->toString();
+        }
     private function getEmptyController($name)
     {
         $sb = new StringBuilder();
@@ -394,6 +450,29 @@ class CodeGen
         $sb->appendLine()->appendFormat( "export default %sSvc.%sFactory;", $name, $cname);
         return $sb->toString();
     }
+    public function  getEmptyDirective($name)
+    {
+            $sb = new StringBuilder();
+            $sb->append("class " . $name);
+            $sb->appendLine();
+            $sb->append("{");
+            $sb->appendLine()->appendTab()->append("constructor(){");
+            $sb->appendLine()->appendTab2()->append( "this.restrict='E';");
+            $sb->appendLine()->appendTab2()->append("this.templateUrl='Scripts/Directives/$name/$name.html';");
+            $sb->appendLine()->appendTab()->append("}");
+            $sb->appendLine();
+
+            $sb->appendTab()->append( "static builder()");
+            $sb->appendTab()->append( "{");
+            $sb->appendLine();
+            $sb->appendTab2()->append("return new $name();");
+            $sb->appendLine();
+            $sb->appendTab()->append( "}");
+            $sb->appendLine();
+            $sb->append("}");
+            $sb->appendLine()->append("export default $name;");
+            return $sb->toString();
+    }
     private function getTemplatePath($tentativePath, $wigenName)
     {
         if (JwtUtil::IsNullOrEmptyString($this->has_template_authorization))
@@ -416,7 +495,7 @@ class CodeGen
         }
         return null;
     }
-    private $log;
+   
     private function getStateName($layout)
     {
        
@@ -430,7 +509,7 @@ class CodeGen
                 $nameList[]=$layout['LayoutName'];               
             }
         }
-        JwtUtil::log($this->log->toString());
+       
         return implode(".", array_reverse($nameList));
     }
     private function getNavigationStateName($navigation)
