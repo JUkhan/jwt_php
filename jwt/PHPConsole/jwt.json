@@ -1,1 +1,0 @@
-{"Name":"app","Layouts":[{"LayoutName":"test_3","Extend":null,"_id":"7B1C63C5-CA3B-42CE-85ED-C409C2230303"}],"Navigations":[{"_id":"3E42FEDE-1E1E-49DE-99EA-0ABDB04964E4","NavigationName":"Nav1","HasLayout":"root","ParamName":null,"WidgetName":"Company_1","Views":[{"ViewName":"view1","WidgetName":"Company"}],"UIViews":null}]}
