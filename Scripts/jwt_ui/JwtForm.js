@@ -1,5 +1,5 @@
-import JwtMultiSelect from 'Scripts/Modules/jwtComponents/JwtMultiSelect.js';
-import {cssClass, capitalize} from 'Scripts/Modules/jwtComponents/JwtUtil.js';
+import JwtMultiSelect from 'Scripts/jwt_ui/JwtMultiSelect.js';
+import {cssClass, capitalize} from 'Scripts/jwt_ui/JwtUtil.js';
 
 var JwtForm=React.createClass({displayName: "JwtForm",
     getInitialState:function(){

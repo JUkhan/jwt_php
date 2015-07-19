@@ -1,4 +1,4 @@
-import JwtSparkLine from 'Scripts/Modules/jwtComponents/JwtSparkLine.js';
+import JwtSparkLine from 'Scripts/jwt_ui/JwtSparkLine.js';
 
 var JwtNode=React.createClass({displayName: "JwtNode",
   getInitialState:function(){

@@ -1,5 +1,5 @@
-import JwtSelectItem from 'Scripts/Modules/jwtComponents/JwtSelectItem.js';
-import {cssClass} from 'Scripts/Modules/jwtComponents/JwtUtil.js';
+import JwtSelectItem from 'Scripts/jwt_ui/JwtSelectItem.js';
+import {cssClass} from 'Scripts/jwt_ui/JwtUtil.js';
 var JwtMultiSelect=React.createClass({displayName: "JwtMultiSelect",
   	getInitialState:function(){
         return {data: this.props.data, isHidden:true, txtSearch:'', dataStorage:this.props.data}

@@ -1,8 +1,8 @@
 
 
-import JwtPager from 'Scripts/Modules/jwtComponents/JwtPager.js';
-import JwtRow from 'Scripts/Modules/jwtComponents/JwtRow.js';
-import {cssClass} from 'Scripts/Modules/jwtComponents/JwtUtil.js';
+import JwtPager from 'Scripts/jwt_ui/JwtPager.js';
+import JwtRow from 'Scripts/jwt_ui/JwtRow.js';
+import {cssClass} from 'Scripts/jwt_ui/JwtUtil.js';
 
 var JwtGrid = React.createClass({displayName: "JwtGrid",
   getInitialState:function(){

@@ -1,7 +1,7 @@
 
 
-import JwtPager from 'Scripts/Modules/jwtComponents/JwtPager.js';
-import JwtNode from 'Scripts/Modules/jwtComponents/JwtNode.js';
+import JwtPager from 'Scripts/jwt_ui/JwtPager.js';
+import JwtNode from 'Scripts/jwt_ui/JwtNode.js';
 
 
 var JwtTreeGrid = React.createClass({displayName: "JwtTreeGrid",

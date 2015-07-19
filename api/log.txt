@@ -1,1 +1,1 @@
-sp_getCustomers
+[{"id":"1","name":"TEST","email":"TEST","phone":"TEST","mobile":"TEST"}]

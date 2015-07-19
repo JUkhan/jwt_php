@@ -1,7 +1,7 @@
 
 
-import JwtGrid from 'Scripts/Modules/jwtComponents/JwtGrid.js';
-import JwtForm from 'Scripts/Modules/jwtComponents/JwtForm.js';
+import JwtGrid from 'Scripts/jwt_ui/JwtGrid.js';
+import JwtForm from 'Scripts/jwt_ui/JwtForm.js';
 
 
 var JwtFormGrid = React.createClass({displayName: "JwtFormGrid",

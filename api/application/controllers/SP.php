@@ -10,10 +10,12 @@ class SP extends CI_Controller {
 
 		$data=$this->post();
 		
-		$this->load->model('sp_model');  
+		$this->load->model('sp_model'); 
+		 
   		$res = $this->sp_model->call_sp($data->sp_name, $data->sp_params);
 
-		$this->load->view('json', array('output' => $res));
+		print json_encode($res);
+		//$this->load->view('json', array('output' => $res));
 	}
 	
 	public function call_out(){
