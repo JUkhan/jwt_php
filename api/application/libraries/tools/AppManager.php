@@ -249,12 +249,7 @@ class AppManager
         return $arr;
     }
     public function getWidgetList(){
-        $this->deserialize();
-        $arr=array();
-        foreach( $this->jwtApp->Navigations as $item){
-            $arr[]=$item['WidgetName'];
-        }
-        return $arr;
+       return JwtUtil::getSubDirectories($this->rootPath . 'Scripts/Components');
     }
     public function generateConfig()
     {

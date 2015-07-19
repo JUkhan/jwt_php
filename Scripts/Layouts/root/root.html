@@ -1,0 +1,22 @@
+ <div class="navbar navbar-inverse navbar-fixed-top" role="navigation"> 
+        <div class="container">
+           
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    
+                    <li ui-sref-active="active"><a ui-sref="root.nav1">Home</a></li> 
+                    <li ui-sref-active="active"><a ui-sref="root.nav2">nav2</a></li> 
+                    
+                </ul>
+              	<ul class="nav navbar-nav navbar-right">
+                   <li data-ng-show="vm.authentication.isAuth" ui-sref-active="active">
+                     <a href="#">Welcome {{vm.authentication.userName}}!</a></li>
+                   <li data-ng-show="!vm.authentication.isAuth" ui-sref-active="active"><a ui-sref="login">Login</a></li>
+        		   <li data-ng-show="!vm.authentication.isAuth" ui-sref-active="active"><a ui-sref="signup">Signup</a></li>
+                   <li data-ng-show="vm.authentication.isAuth" ui-sref-active="active"><a href="" data-ng-click="vm.logOut()">Log off</a></li>
+    			</ul>
+            </div>
+        </div>
+    </div>
+
+<div ui-view></div>

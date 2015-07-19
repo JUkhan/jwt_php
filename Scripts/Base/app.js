@@ -6,11 +6,11 @@ import {default as controllers} from 'Scripts/app.controllers.js';
 import {default as services} from 'Scripts/app.services.js';
 import {default as directives} from 'Scripts/app.directives.js';
 import {default as filters} from 'Scripts/app.filters.js';
-import jwtComponents from 'Scripts/Modules/jwtComponents/jwtComponents.js';
+//import jwtComponents from 'Scripts/Modules/jwtComponents/jwtComponents.js';
 
 var moduleName='app'; 
 
-angular.module(moduleName,['ui.router', 'ngResource', 'LocalStorageModule', 'angular-loading-bar','highcharts-ng', controllers, services, directives, filters, jwtComponents])
+angular.module(moduleName,['ui.router', 'ngResource', 'LocalStorageModule', 'angular-loading-bar', controllers, services, directives, filters])
     .factory('authInterceptorService', authInterceptorService)
     .factory('authService', authService)
     .config(config)

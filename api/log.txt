@@ -1,1 +1,1 @@
-../Scripts/Directives/test101/test101.js
+sp_getCustomers

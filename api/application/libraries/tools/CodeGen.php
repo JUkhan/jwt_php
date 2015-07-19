@@ -405,7 +405,7 @@ class CodeGen
         $sb->appendLine()->appendTab()->append("}");
         $sb->appendLine();
         $sb->append("}");
-        $sb->appendLine()->appendFormat( "%sCtrl.\$inject=['\$scope', '%sSvc'];", $name);
+        $sb->appendLine()->appendFormat( "%sCtrl.\$inject=['\$scope', '%sSvc'];", $name, $name);
         $sb->appendLine()->appendFormat( "export default %sCtrl;", $name);
         return $sb->toString();
     }

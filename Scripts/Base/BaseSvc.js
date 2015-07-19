@@ -5,24 +5,10 @@ class BaseSvc
         
         this.http=http;
     }
-    getDummyData(obj){ 
-      
-           return this.http.post('Jwt/GetDummyData',obj);        		
-    }
-    get_1(spName, spParams){
-        
-        if(!angular.isArray(spParams)){
-            spParams=this.getParams(spParams);
-        }
-         return  this.http.post('Repository/GetTableData',{spName:spName, spParams:spParams}); 
-    }
-    get_2(spName, spParams){
-        
-         if(!angular.isArray(spParams)){
-            spParams=this.getParams(spParams);
-         }
-         return  this.http.post('Repository/getScalarValue',{spName:spName, spParams:spParams}); 
-    }
+    call_sp(spName, params){
+	    
+	    return this.http.post('api/sp/call',{sp_name:spName, sp_params:params||null});
+	}
     exportExcel(spName, spParams, fileName){
         
          if(!angular.isArray(spParams)){

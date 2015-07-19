@@ -22,6 +22,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
         setJsEditor(scope);
         setHtmlEditor(scope);
         setCssEditor(scope);
+        scope.setFont('13px');
     }, 1000);   
     $(window).resize(function () { autoSize(); });
     //new style

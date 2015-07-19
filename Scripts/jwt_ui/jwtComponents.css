@@ -1,0 +1,150 @@
+.jwt-grid .well{
+      min-height: 36px;
+      padding: 0; 
+      margin: 0; 
+}
+.jwt-grid .table > tbody > tr > td, .jwt-grid .table > thead > tr > th{
+    padding:4px;
+}
+.jwt-grid .pagination{
+    margin:0px;
+}
+.jqstooltip {
+  width: auto !important;
+  height: auto !important;
+}
+.jwt-grid .link{margin-right: 0.4em;}
+.jwt-grid tbody tr td .btn{
+    padding:0 4px;
+}
+.tgrid{
+    display:table;
+    border: 1px solid #dddddd;
+    padding:0px;
+    margin:0px;
+    font-size: 12px;
+}
+
+.tgrid .level-1 .indented {
+	position : relative;
+	left     : 0;
+	cursor:pointer;
+}
+
+.tgrid .level-2 .indented {
+	position : relative;
+	left     : 20px;
+	cursor:pointer;
+}
+
+.tgrid .level-3 .indented {
+	position : relative;
+	left     : 40px;
+	cursor:pointer;
+}
+.tgrid .level-4 .indented {
+	position : relative;
+	left     : 60px;
+	cursor:pointer;
+}
+.tgrid .level-5 .indented {
+	position : relative;
+	left     : 80px;
+	cursor:pointer;
+}
+
+.tgrid>thead>tr>th, .tgrid>tbody>tr>th, .tgrid>tfoot>tr>th, .tgrid>thead>tr>td, .tgrid>tbody>tr>td, .tgrid>tfoot>tr>td {
+  border: 1px solid #dddddd;
+}
+.tgrid>thead>tr>th, .tgrid>tbody>tr>th, .tgrid>tfoot>tr>th, .tgrid>thead>tr>td, .tgrid>tbody>tr>td, .tgrid>tfoot>tr>td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+.tgrid .child-td{
+    padding:0;
+    border: none;
+    border-style: none;
+}
+.jwt-grid .tgrid thead tr td{
+   padding:0px; 
+}
+.xjwt-grid .well .btn-link{
+   padding: 5px; 
+  
+}
+.jwt-grid table thead .sort{
+  cursor:pointer;
+}
+.jwt-grid table thead .sort span{
+     width: 14px; 
+}
+.multiselect{
+    display:inline-block;
+}
+.multiselect .header{
+   padding:.4em;
+   cursor:pointer;
+    color: #555;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.multiselect .has-error{
+  border-color:#a94442;
+}
+.multiselect .tool{
+     background-color:#E3E3E3;/*E3E3E3#5CB85C*/
+     padding-left:.4em;
+     padding-right:.1em;
+     padding-bottom:.4em;
+     padding-top:.1em;
+     
+}
+.multiselect .tool input[type='text']{
+    width:150px; 
+    border-radius: 4px;
+    border: 1px solid #CCC;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    padding-left:.4em;
+    height:24px;
+}
+.multiselect .ms-content{
+    border: 1px solid #CCC;/*#4CAE4C*/
+    background-color:#FFF;
+    z-index:999;
+    position:absolute;
+    overflow:auto;
+}
+.multiselect .ms-content .item-content{
+    overflow:auto;
+}
+.multiselect .item{
+   border-bottom: 1px solid #DDD;
+    padding-left:.4em;
+    font-size:12px;
+    color:#555;
+}
+.multiselect label{
+  display:block; 
+  cursor:pointer;
+  
+}
+.multiselect .item:hover{
+    background-color:#4CAE4C;
+    transition: .3ms;
+    color:#FFF;
+}
+.jwt-tree .btn{
+   padding:0; 
+}
+
+.jwt-tree ul{
+    list-style:none;
+    padding-left:2em;
+}

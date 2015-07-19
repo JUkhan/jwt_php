@@ -48,7 +48,7 @@ class JwtUtil
         }
     }
     public static function getSubDirectories($path){
-         JwtUtil::log($path);
+        
         $ffs = scandir($path);
         $arr=array();
         foreach($ffs as $ff){
@@ -61,7 +61,7 @@ class JwtUtil
         }
         return $arr;
     }
-     public static function getFiles($path){       
+    public static function getFiles($path){       
         $ffs = scandir($path);
         $arr=array();
         foreach($ffs as $ff){
@@ -73,7 +73,8 @@ class JwtUtil
             }
         }
         return $arr;
-    }
+    }  
+    
     public static function IsNullOrEmptyString($question){
         return (!isset($question) || trim($question)==='');
     }

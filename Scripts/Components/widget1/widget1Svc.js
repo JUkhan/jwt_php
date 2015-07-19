@@ -6,6 +6,7 @@ class widget1Svc extends BaseSvc
 		super(http);
 		this.http= http;
 	}
+	
 	static Widget1Factory(http)	{
 		return new widget1Svc(http);
 	}

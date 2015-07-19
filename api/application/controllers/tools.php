@@ -5,8 +5,9 @@ class Tools extends CI_Controller {
     private $app=null;
 	function __construct() {
 		parent::__construct();		
-	    $this->app=new AppManager("../") ;      
+	    $this->app=new AppManager("../", $this->get_config_item('default_navigation')) ;      
         $this->app->has_template_authorization=$this->get_config_item('has_template_authorization');
+
 	}
 	public function index()
 	{
