@@ -1,1 +1,1 @@
-[{"id":"1","name":"TEST","email":"TEST","phone":"TEST","mobile":"TEST"}]
+../Scripts/Components/widget3/widget3.css1
