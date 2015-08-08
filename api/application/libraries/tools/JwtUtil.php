@@ -97,14 +97,11 @@ class JwtUtil
 
     public static function array_find($arr, $callback){
         foreach($arr as $item){
-            if($callback($item)){
+            if($callback($item)==TRUE){
                 return $item;
             }
         }
         return null;
-    }
-    public static function removeFile($path){
-        unlink($path);
     }
     public static function rename($pathx, $newName, $oldName)
     { 

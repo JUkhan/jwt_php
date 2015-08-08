@@ -3,7 +3,7 @@ import {cssClass, capitalize} from 'Scripts/jwt_ui/JwtUtil.js';
 
 var JwtForm=React.createClass({displayName: "JwtForm",
     getInitialState:function(){
-        return {errors: {},  isHide:false, message:null}
+        return {errors: {},  isHide:false, message:null, col:1, labelCol:4, inputCol:6}
     },
     getDefaultProps:function(){
       return { options:{}}
@@ -96,16 +96,16 @@ var JwtForm=React.createClass({displayName: "JwtForm",
         switch(field.type.toLowerCase()){
               case 'radio':        
                 field.values.forEach(function(value){
-                     this.refs[field.name+value].getDOMNode().checked=(data[field.name]===value)                 
+                     this.refs[field.name+value].getDOMNode().checked=(data[field.name]===value);                 
                   
                 }.bind(this))
               break;
               case 'checkbox':
-                 this.refs[field.name].getDOMNode().checked = !!data[field.name]             
+                 this.refs[field.name].getDOMNode().checked = !!data[field.name] ;            
               break;
               case 'checkboxInlines':
                   field.values.forEach(function(value){           
-                       this.refs[field.name+value].getDOMNode().checked = !!data[value]         
+                       this.refs[field.name+value].getDOMNode().checked = !!data[value] ;        
                 }.bind(this))            
               break;
               case 'multiSelect':
@@ -113,11 +113,11 @@ var JwtForm=React.createClass({displayName: "JwtForm",
               break; 
               case 'info': break;        
               default:
-                this.refs[field.name].getDOMNode().value=data[field.name]||''
+                $(this.refs[field.name].getDOMNode()).val(data[field.name]||'');
               break
         }
       }.bind(this))
-      this.isValid()
+      //this.isValid()
     },
     setSelectOptions:function(fieldName, values){
       this.props.options.fields.forEach(function(field) {
@@ -131,22 +131,22 @@ var JwtForm=React.createClass({displayName: "JwtForm",
         this.refs[fieldName].setData(values);
     },
     getFormData: function() {      
-      var data= this.__formData||{}
+      var data= this.__formData||{};
        this.props.options.fields.forEach(function(field) {
         switch(field.type.toLowerCase()){
            case 'radio':       
               field.values.forEach(function(value){
                 if(this.refs[field.name+value].getDOMNode().checked){
-                     data[field.name]=value
+                     data[field.name]=value;
                 }
               }.bind(this))
            break;
            case 'checkbox':
-               data[field.name]=this.refs[field.name].getDOMNode().checked              
+               data[field.name]=this.refs[field.name].getDOMNode().checked ;             
            break;
            case 'checkboxinlines':
                 field.values.forEach(function(value){           
-                     data[value]=this.refs[field.name+value].getDOMNode().checked           
+                     data[value]=this.refs[field.name+value].getDOMNode().checked ;          
               }.bind(this))            
            break;
            case 'multiselect':
@@ -154,7 +154,7 @@ var JwtForm=React.createClass({displayName: "JwtForm",
            break; 
            case 'info': break;         
            default:
-              data[field.name]=this.refs[field.name].getDOMNode().value
+              data[field.name]=$(this.refs[field.name].getDOMNode()).val();
            break;
         }
       }.bind(this))
@@ -183,16 +183,12 @@ var JwtForm=React.createClass({displayName: "JwtForm",
                    React.createElement("div", {className: "panel-body"}, 
                       msg, 
                       React.createElement("form", {ref: "form", className: "form-horizontal", encType: options.fileUpload?'multipart/form-data':null}, 
-                          this.getFields(options)
+                          this.__getFormFields(options)
                       )
                    ), 
                    React.createElement("div", {className: "panel-footer"}, 
                         React.createElement("div", {className: "text-center"}, 
-                            React.createElement("div", {classNames: "btn-group"}, 
-                              React.createElement("button", {type: "button", className: "btn btn-primary", onClick: this.handleSubmit}, "Submit"), 
-                                  " ",         
-                              React.createElement("button", {type: "button", className: "btn btn-info", onClick: this.handleCancel}, "Cancel")
-                            )
+                              this.getActionButtons()
                         )
                    )
                   
@@ -200,57 +196,136 @@ var JwtForm=React.createClass({displayName: "JwtForm",
          )
       
     },
+    getActionButtons:function(){
+      if(!this.props.options.buttons){
+        return React.createElement("div", {className: "btn-group"}, 
+                              React.createElement("button", {type: "button", className: "btn btn-primary", onClick: this.handleSubmit}, "Submit"), 
+                                 
+                              React.createElement("button", {type: "button", className: "btn btn-info", onClick: this.handleCancel}, "Cancel")
+                            )
+      }
+      return  React.createElement("div", {className: "btn-group"}, 
+        
+          this.props.options.buttons.map(function(btn, index){
+
+            if(btn.text && btn.className && btn.icon){
+              return React.createElement("button", {key: index, type: "button", title: btn.title||'You missed the title', className: btn.className, onClick: btn.onClick}, React.createElement("span", {className: btn.icon}), " ", btn.text)
+            }
+            else if(btn.text && btn.className){
+              return React.createElement("button", {key: index, type: "button", title: btn.title||'You missed the title', className: btn.className, onClick: btn.onClick}, btn.text)
+            }
+            else if(btn.icon && btn.className){
+              return React.createElement("button", {key: index, type: "button", className: btn.className, title: btn.title||'You missed the title', className: btn.className, onClick: btn.onClick}, React.createElement("span", {className: btn.icon}))
+            }
+            else if(btn.icon){
+              return React.createElement("button", {key: index, type: "button", className: "btn btn-default", title: btn.title||'You missed the title', onClick: btn.onClick}, React.createElement("span", {className: btn.icon}))
+            }
+            else{
+              return React.createElement("button", {key: index, type: "button", title: btn.title||'You missed the title', className: "btn btn-primary", onClick: btn.onClick}, btn.text)
+            }
+          })
+        
+      )
+  },
+    __getFormFields:function(options){
+      var colSpan=0;
+       for(var i=0,l=options.fields.length;i<l; i++){
+          if(options.fields[i].colSpan){
+            colSpan +=options.fields[i].colSpan-1;
+          }
+       }
+
+        if(this.state.col==1){return this.getFields(options);}
+        var rows= parseInt(options.fields.length/this.state.col) + ((options.fields.length%this.state.col)>0?1:0)+colSpan;
+        var res=[], col=parseInt(12/this.state.col);
+        for (var i = 0; i < rows; i++) {
+          var item=React.createElement("div", {key: i, className: "row"}, this.__getCols(options, i, col), " ")
+          
+          res.push(item);
+        }
+        return res;
+    },
+    __getCols:function(options, row, colNumber){
+      var col=colNumber, res=[], index;
+      
+      for (var ic = 0; ic < this.state.col; ic++) {
+        index=(row*this.state.col)+ic;
+        if(index>=options.fields.length){continue;}
+           if(options.fields[index].colSpan){
+              col=colNumber*options.fields[index].colSpan;
+              ic+=options.fields[index].colSpan-1;
+           }
+
+           res.push(React.createElement("div", {key: index, className: 'col-sm-'+col}, this.getField(options.fields[index])));
+           col=colNumber;
+      }
+      return res;
+    },
+    getField:function(field){
+      switch(field.type.toLowerCase()){
+              case 'text':
+                return !field.hide && this.renderTextInput(field)
+              break;
+              case 'textarea':
+                return !field.hide && this.renderTextarea(field)
+              break;
+              case 'select':
+                return !field.hide && this.renderSelect(field)
+              break;
+              case 'radio':
+                return !field.hide && this.renderRadioInlines(field)
+              break;
+              case 'checkbox':
+                return !field.hide && this.renderCheckbox(field)
+              break;
+              case 'checkboxinlines':
+                return !field.hide && this.renderCheckboxInlines(field)
+              break;              
+              case 'file':
+                return !field.hide && this.renderFileInput(field)
+              break;
+              case 'multiselect':
+                return !field.hide && this.renderMultiSelectt(field)
+              break;
+              case 'timepicker':
+                return !field.hide && this.renderTimepicker(field)
+              break;
+              case 'colorpicker':
+                return !field.hide && this.renderColorpicker(field)
+              break;
+               case 'datepicker':
+                return !field.hide && this.renderDatepicker(field)
+              break;
+              case 'info':
+                return !field.hide && this.renderInfo(field)
+              break;
+           } 
+          return null;  
+    },
     getFields:function(options){
       if(!options.fields) return
       var me=this;
         return options.fields.map(function(field, index){
           me.__key=index;
            field.hide=field.hide||false;
-           switch(field.type.toLowerCase()){
-              case 'text':
-                return !field.hide && me.renderTextInput(field)
-              break;
-              case 'textarea':
-                return !field.hide && me.renderTextarea(field)
-              break;
-              case 'select':
-                return !field.hide && me.renderSelect(field)
-              break;
-              case 'radio':
-                return !field.hide && me.renderRadioInlines(field)
-              break;
-              case 'checkbox':
-                return !field.hide && me.renderCheckbox(field)
-              break;
-              case 'checkboxinlines':
-                return !field.hide && me.renderCheckboxInlines(field)
-              break;              
-              case 'file':
-                return !field.hide && me.renderFileInput(field)
-              break;
-              case 'multiselect':
-                return !field.hide && me.renderMultiSelectt(field)
-              break;
-              case 'timepicker':
-                return !field.hide && me.renderTimepicker(field)
-              break;
-              case 'colorpicker':
-                return !field.hide && me.renderColorpicker(field)
-              break;
-               case 'datepicker':
-                return !field.hide && me.renderDatepicker(field)
-              break;
-              case 'info':
-                return !field.hide && me.renderInfo(field)
-              break;
-           }   
-           return null
-        })
+           return this.getField(field);
+           
+        }.bind(this))
+    },
+    componentWillMount:function(){
+          if(this.props.options.col){this.state.col=this.props.options.col;}
+          if(this.props.options.labelCol){this.state.labelCol=this.props.options.labelCol;}
+          if(this.props.options.inputCol){this.state.inputCol=this.props.options.inputCol;}
+          if(this.state.col>1 && !this.props.options.inputCol){
+             this.state.inputCol=8;
+          }
     },
     componentDidMount:function(){
+     
+    var tid=  setTimeout(function(){
        this.props.options.fields.forEach(function(field) {
         switch(field.type.toLowerCase()){
-           case 'timepicker':       
+           case 'timepicker':               
                $(this.refs[field.name].getDOMNode()).timepicker(field.options||{});
            break;
            case 'colorpicker':       
@@ -261,8 +336,10 @@ var JwtForm=React.createClass({displayName: "JwtForm",
            break;
         }
       }.bind(this));
-       if(this.props.componentDidMount){
-          this.props.componentDidMount(this);
+       clearTimeout(tid);
+}.bind(this), 0);
+       if(this.props.options.componentDidMount){
+          this.props.options.componentDidMount(this);
        }
     },
     renderInfo:function(options){
@@ -280,11 +357,12 @@ var JwtForm=React.createClass({displayName: "JwtForm",
       )
     },  
     
-    renderDatepicker: function(options) {
+    renderDatepicker: function(options) {      
       return this.renderField(options.name, options.label,
         React.createElement("div", {ref: options.name+'009', className: "input-group date"}, 
             React.createElement("input", {type: "text", className: "form-control", id: options.name, ref: options.name}), 
-            React.createElement("span", {className: "input-group-addon"}, React.createElement("i", {className: "glyphicon glyphicon-calendar"}))
+            React.createElement("span", {className: "input-group-addon"}, React.createElement("i", {className: "glyphicon glyphicon-calendar"})), 
+            this.getButtons(options)
         )
       )
     },
@@ -307,10 +385,41 @@ var JwtForm=React.createClass({displayName: "JwtForm",
         React.createElement("input", {type: "file", className: "form-control", name: options.name, id: options.name, ref: options.name})
       )
     },
+     getButtons:function(field){
+          if(!field.onClick){return null;}
+          if(!Array.isArray(field.onClick)){
+            field.onClick=[field.onClick];
+          }
+          var linkText=field.buttonText;
+          if(!linkText){
+            linkText=':::';
+          }
+          if(!Array.isArray(linkText)){
+            linkText=[linkText];
+          }
+          var icons=field.icon;
+          if(field.icon && !Array.isArray(icons)){
+            icons=[icons];      
+          }    
+
+          return  field.onClick.map(function(fx, id){
+            if(icons){
+              return React.createElement("span", {key: id, className: "input-group-addon", title: linkText[id], onClick: fx.bind(null)}, React.createElement("i", {className: icons[id]}))
+            }
+            return React.createElement("span", {key: id, style: {cursor:'pointer'}, className: "input-group-addon", onClick: fx.bind(null)}, linkText[id], " ")
+          })    
+  },
     renderTextInput: function(options) {
-      return this.renderField(options.name, options.label,
-        React.createElement("input", {type: "text", className: "form-control", id: options.name, ref: options.name})
-      )
+      var input=null;
+      if(options.onClick){
+        input=React.createElement("div", {className: "input-group date"}, 
+           React.createElement("input", {type: "text", className: "form-control", id: options.name, ref: options.name}), 
+            this.getButtons(options)
+         )
+      }else{
+        input= React.createElement("input", {type: "text", className: "form-control", id: options.name, ref: options.name})
+      }
+      return this.renderField(options.name, options.label,input);
     },
 
     renderTextarea: function(options) {
@@ -381,9 +490,10 @@ var JwtForm=React.createClass({displayName: "JwtForm",
   },
   __key:1,
   renderField: function(id, label, field) {
+    
     return React.createElement("div", {key: this.__key, className: cssClass('form-group', {'has-error': id in this.state.errors})}, 
-      React.createElement("label", {htmlFor: id, className: "col-sm-4 control-label"}, label), 
-      React.createElement("div", {className: "col-sm-6"}, 
+      React.createElement("label", {htmlFor: id, className: "col-sm-"+(this.state.labelCol)+" control-label"}, label), 
+      React.createElement("div", {className: "col-sm-"+this.state.inputCol}, 
         field
       )
     )

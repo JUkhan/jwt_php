@@ -18,8 +18,8 @@ angular.module(moduleName,['ui.router', 'ngResource', 'LocalStorageModule', 'ang
         $httpProvider.interceptors.push('authInterceptorService');
     })
     .constant('ngAuthSettings', {
-        stsServiceBaseUri: 'http://localhost:8888/',        
-        apiServiceBaseUri: 'http://localhost:8888/',
+        stsServiceBaseUri: 'http://localhost:8080/booking/',        
+        apiServiceBaseUri: 'http://localhost:8080/booking/',
         clientId: 'jwtApp'//nativeApp//jwtApp
     })
     .run(['authService', '$rootScope', '$templateCache', function(authService, $rootScope, $templateCache) {

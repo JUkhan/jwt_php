@@ -128,24 +128,6 @@ class Tools extends CI_Controller {
 		//$this->load->view('json', array('output' => 'created'));
 		print $res;
 	}
-	public function IsFileExist()
-    {
-            $this->load->view('json', array('output' => $this->app->IsFileExist($this->input->get('mode'), 
-            	$this->input->get('directoryName'), $this->input->get('fileName'), $this->input->get('ext'))));
-
-    }
-    public function AddFile()
-    {
-            $this->load->view('json', array('output' => $this->app->AddFile($this->input->get('mode'), 
-            	$this->input->get('directoryName'), $this->input->get('fileName'), $this->input->get('ext'))));
-
-    }
-     public function RemoveFile()
-    {
-            $this->load->view('json', array('output' => $this->app->RemoveFile($this->input->get('mode'), 
-            	$this->input->get('directoryName'), $this->input->get('fileName'), $this->input->get('ext'))));
-
-    }
 }
 
 /* End of file role.php */
