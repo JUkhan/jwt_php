@@ -14,12 +14,12 @@ class reportCtrl extends BaseCtrl
 	    
 	   var grid={
 	        filter:false,limit:151,
-	        loadingText:'Loading...',
+	        loadingText:'Data not found.',
 	        columns:[
 	          {field:'cid', displayName:'Code'},
 	          {field:'hall_name', displayName:'Hall Name', sort:true},
 	          {field:'shift', displayName:'Shift', sort:true},
-	          {field:'btype', displayName:'Booking Type', sort:true},
+	          {field:'btype', displayName:'Booking Type', render:row=>{if(row.btype==='Confirmed'){return '<b style="color:red">'+row.btype+'</b>';} return row.btype;}, sort:true},
 	          {field:'bdate', displayName:'Booking Date', sort:true},
 	          {field:'payback_date', displayName:'Security Back', sort:true},
 	          {field:'cancel_date', displayName:'Cancel Date', sort:true}
@@ -33,8 +33,10 @@ class reportCtrl extends BaseCtrl
 	        fields:[
 	            {type:'select', name:'hall_name', label:'Select Hall', values:['All','Helmet','Anchor','Engle']},
 	            {type:'select', name:'shift', label:'Select Shift', values:['All','Shift1', 'Shift2']},
-	             {type:'select', name:'btype', label:'Select Booking Type', values:['All','Confirmed', 'Temporary']},
-	              {type:'datepicker', name:'bdate', label:'Booking Date', options:{orientation:'top bottom',format:'yyyy-mm-dd'}}
+	             {type:'select', name:'btype', label:'Select Booking Type', values:['All','Confirmed', 'Temporary', 'Canceled']},
+	              {type:'datepicker', name:'bdate', label:'Start Date', options:{orientation:'top bottom',format:'yyyy-mm-dd'}},
+	               {type:'info'},
+	              {type:'datepicker', name:'edate', label:'End Date', options:{orientation:'top bottom',format:'yyyy-mm-dd'}}
 	           
 	            ]
 	    };
@@ -64,19 +66,29 @@ class reportCtrl extends BaseCtrl
 	       
 	   }
 	   if(obj.btype && obj.btype!=='All'){
-	       if(isFirst){
-	            where.push("btype='"+obj.btype+"'");
-	            isFirst=false;
-	       }else{
-	           where.push(" and btype='"+obj.btype+"'");
-	       }
+	      if(obj.btype==='Canceled'){
+	         if(isFirst){
+    	            where.push("cancel_date > '2000-10-10'");
+    	            isFirst=false;
+    	       }else{
+    	           where.push(" and cancel_date > '2000-10-10'");
+    	       } 
+	      }
+	      else{
+    	       if(isFirst){
+    	            where.push("btype='"+obj.btype+"'");
+    	            isFirst=false;
+    	       }else{
+    	           where.push(" and btype='"+obj.btype+"'");
+    	       }
+	      }
 	   }
-	   if(obj.bdate){
+	   if(obj.bdate && obj.edate){
 	       if(isFirst){
-	           where.push("bdate='"+obj.bdate+"'");
+	           where.push("bdate BETWEEN '"+obj.bdate+"' and '" + obj.edate+"'");
 	            isFirst=false;
 	       }else{
-	           where.push(" and bdate='"+obj.bdate+"'");
+	            where.push(" and bdate BETWEEN '"+obj.bdate+"' and '" + obj.edate+"'");
 	       }
 	       
 	   }

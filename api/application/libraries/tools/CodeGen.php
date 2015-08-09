@@ -20,7 +20,7 @@ class CodeGen
     public $app;
     public $root="./";
     public $defaultNavigation="";
-    public $has_template_authorization="";
+    public $has_template_authorization=FALSE;
 
     public function __construct($jwtApp=null){
         $this->app=$jwtApp;
@@ -475,16 +475,11 @@ class CodeGen
     }
     private function getTemplatePath($tentativePath, $wigenName)
     {
-        if (JwtUtil::IsNullOrEmptyString($this->has_template_authorization))
+    	if ($this->has_template_authorization)
         {
-            return $tentativePath;
+            return "'api/tools/tpl/".$wigenName."'" ;
         }
-        $path =$this->has_template_authorization;
-        if (!JwtUtil::endsWith($path, "/"))
-        {
-            $path .= '/';
-        }
-        return sprintf( "'%s'", $path . $wigenName);
+        return $tentativePath; 
 
     }
     private function array_find($arr, $fieldName, $layoutName){
@@ -535,5 +530,5 @@ class CodeGen
         return implode(".", array_reverse($nameList));
         
     }
-
+   
 }

@@ -6,7 +6,7 @@ class rootCtrl
 		this.authentication = authService.authentication;
       	this.authService=authService;
       	this.location=location;
-      	this.hasAuthorize=false;
+      	this.hasAuthorize=true;
       	//svc.getUser(this.authentication.userName).success(user=>{this.userAction(user);});
 	}
   	logOut() {

@@ -51,6 +51,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
             scope.htmlList = [];
             scope.cssList = [];
             if (val === 'Base') {
+                scope.itemValue = '1';
                 scope.dataMode = val;
                 scope.changeItemValue();
                 return;
@@ -166,7 +167,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
     scope.saveJsFile = function () {
         if (!scope.jsFileName) { info('There is no file to be saved.'); return; }
         if (LOCK.jsLock) return;
-        http.post('SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue], fileName: scope.jsFileName, content: scope.jsEditor.getValue() })
+        http.post('SaveFile', { mode: scope.dataMode, directoryName: scope.items[scope.itemValue]||'', fileName: scope.jsFileName, content: scope.jsEditor.getValue() })
         .success(function (data) {
             if (data.isSuccess) {
                 //jwtSvc.unlock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue], Name: scope.jsFileName });
@@ -339,7 +340,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
                 //try { jwtSvc.lock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue] || 'base', Name: scope.jsFileName }); } catch (error) { }
                 AWAIT.jsLock = 0;
                 scope.$apply(function () { scope.dataChange.jsf = true; });
-
+                //scope.dataChange.jsf = true;
             }
         }
     };
@@ -349,6 +350,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
                 //try { jwtSvc.lock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue], Name: scope.htmlFileName }); } catch (error) { }
                 AWAIT.htmlLock = 0;
                 scope.$apply(function () { scope.dataChange.htmlf = true; });
+                //scope.dataChange.htmlf = true;
             }
         }
     };
@@ -358,6 +360,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
                 //try { jwtSvc.lock({ UserName: jwtSvc.userName, Category: scope.dataMode, Folder: scope.items[scope.itemValue], Name: scope.cssFileName }); } catch (error) { }
                 AWAIT.cssLock = 0;
                 scope.$apply(function () { scope.dataChange.cssf = true; });
+                 //scope.dataChange.cssf = true;
             }
         }
     };

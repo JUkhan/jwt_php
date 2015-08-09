@@ -18,7 +18,7 @@ class AppManager
     private $defaultNavigation = "";
     private $jwtApp;
     public $rootPath="";
-    public $has_template_authorization="";
+    public $has_template_authorization=FALSE;
     public function __construct($rootPath="", $defaultNavigation = ""){
         $this->rootPath=  $rootPath;
         $this->defaultNavigation=$defaultNavigation;
@@ -251,6 +251,26 @@ class AppManager
     public function getWidgetList(){
        return JwtUtil::getSubDirectories($this->rootPath . 'Scripts/Components');
     }
+    public function GetAllWidgets(){
+       $arr1= JwtUtil::getSubDirectories($this->rootPath . 'Scripts/Components');
+       $arr2= JwtUtil::getSubDirectories($this->rootPath . 'Scripts/Layouts');
+       $output=array();
+
+        foreach ($arr2 as $key => $value) {
+            $obj=new stdClass();
+            $obj->widgetId=$value .'__LAYOUT__';
+            $obj->widgetName=$value;
+           $output[]=$obj;
+       }
+       foreach ($arr1 as $key => $value) {
+            $obj=new stdClass();
+            $obj->widgetId=$value;
+            $obj->widgetName=$value;
+           $output[]=$obj;
+       }
+      
+       return $output;
+    }
     public function generateConfig()
     {
         try
@@ -431,7 +451,7 @@ class AppManager
             {
 
                 case "Base":
-                    $path .= "Scripts/Base/" . $fileName;
+                    $path .= "Scripts/Base/" . $fileName;                    
                     JwtUtil::putContent($path, $content);
                     break;
                 case "Layouts":
@@ -451,9 +471,10 @@ class AppManager
                     JwtUtil::putContent($path, $content);
                     break;
             }
+
             $res->isSuccess = true;
             $res->msg = "Successfully saved.";
-      
+            
             return $res;
         }
         public function IsExist($name, $mode){
@@ -484,4 +505,13 @@ class AppManager
             $codeGen->defaultNavigation = $this->defaultNavigation;
             return $codeGen->CreateItem($name, $mode);
         }
+    public function getTemplate($name){
+        if(JwtUtil::endsWith($name,'__LAYOUT__')){
+
+            $name=str_replace("__LAYOUT__","",$name);
+            
+           return JwtUtil::getContent($this->rootPath."Scripts/Layouts/$name/$name.html");
+        }
+        return JwtUtil::getContent($this->rootPath."Scripts/Components/$name/$name.html");
+    }
 }

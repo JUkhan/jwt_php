@@ -5,7 +5,10 @@ $config['jwt_key']	= 'jwtAppKey::hsgd23h3h4h34eh32hoi2vx1x2mkl334il2n4n6l00n6MMM
 
 $config['app_builder']=TRUE;
 
-$config['has_template_authorization']='';
+$config['has_template_authorization']=TRUE;
+
+$config['template_authorize_message']='You are not authorized for this content.';
+$config['widget_ignore_list']=['root', 'login', 'signup'];
 
 $config['default_navigation']='root/nav1';
 

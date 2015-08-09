@@ -1,0 +1,44 @@
+<br>
+<div class="row">
+    <div class="col-xs-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">All Roles</div>
+            <ul class="list-group" ng-repeat="u in vm.roles">
+                <li class="list-group-item" ng-bind="u.name">Cras justo odio</li>
+            </ul>
+        </div>
+         <div class="input-group">
+              <input type="text" class="form-control" placeholder="Role name" ng-model="vm.roleName">
+              <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="vm.addRole(vm.roleName)" type="button">Add</button>
+              </span>
+        </div>
+    </div>
+    <div class="col-xs-9">
+        <div ng-show="vm.msg" class="alert alert-info" role="alert">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              <b>{{vm.msg}}</b>
+        </div>
+       
+        
+         <div class="panel panel-default">
+            <div class="panel-heading">{{vm.userName}} Roles</div>
+            <ul class="list-group" ng-repeat="claim in vm.userRoles">
+                <li class="list-group-item">
+                  <span ng-bind="$index+1"></span>  <b>{{claim.role}}</b> &nbsp;&nbsp;<a href="javascript:;" ng-click="vm.removeRole(claim.roleId)">Remove</a>
+                </li>
+            </ul>
+             <div class="input-group">
+              <select class="form-control" ng-model="vm.roleId">
+                  <option value="">--select--</option>
+                  <option value="{{u.id}}" ng-repeat="u in vm.roles">{{u.name}}</option>
+              </select>	
+              <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="vm.assignRoleToUser(vm.roleId)" type="button">Add New Role to {{vm.userName}}</button>
+              </span>
+            </div>
+        </div>
+        <div id="grid"></div>
+    </div>
+</div>

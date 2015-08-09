@@ -9,6 +9,51 @@ class Tools extends CI_Controller {
         $this->app->has_template_authorization=$this->get_config_item('has_template_authorization');
 
 	}
+	private $userId;
+	private function authorize(){		
+		$arr=getallheaders();
+		if(isset($arr['Authorization'])){			
+			$token=str_replace("Bearer ","",$arr['Authorization']);
+			$token=JWT::decode($token, $this->config->item('jwt_key'));
+			if($token==false){
+				return false;
+			}else{
+				$this->userId=$token->id;
+
+				return true;
+			}
+			
+		}		
+		return false;
+	}
+	private function isIgnoredWidget($arr, $val){
+		if(JwtUtil::endsWith($val,'__LAYOUT__')){
+            $val=str_replace("__LAYOUT__","",$val);
+        }
+		foreach ($arr as  $value) {
+			if($value==$val) return true;			 
+		}
+		return false;
+	}
+	public function tpl($name){
+		$ignoreList=$this->get_config_item('widget_ignore_list');
+		if($this->isIgnoredWidget($ignoreList, $name)){
+			echo $this->app->getTemplate($name);
+			return;
+		}
+		$output='<div class="alert alert-info not-auth">' . $this->get_config_item('template_authorize_message') . '</div>';
+		if($this->authorize()){
+			$this->load->model('sp_model'); 			 
+		  	$data = $this->sp_model->call_sp('get_widget_permission', [$this->userId, $name]);
+		  	
+		  	if(count($data)>0)	{	
+				$output=$this->app->getTemplate($name);
+			}
+		}
+
+		//echo 
+		echo $output;
+	}
 	public function index()
 	{
 		if($this->get_config_item('app_builder')==TRUE){
@@ -127,6 +172,12 @@ class Tools extends CI_Controller {
 		$res= $this->app->CreateItem($this->input->get('name'), $this->input->get('mode'));
 		//$this->load->view('json', array('output' => 'created'));
 		print $res;
+	}
+	public function GetAllWidgets(){
+
+		$res= $this->app->GetAllWidgets();
+		$this->load->view('json', array('output' => $res));
+
 	}
 }
 

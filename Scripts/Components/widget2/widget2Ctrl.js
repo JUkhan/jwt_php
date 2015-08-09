@@ -67,7 +67,7 @@ class widget2Ctrl extends BaseCtrl
 	            {type:'info', message:'Shift2 Time'},
 	            {type:'timepicker', name:'s2_time', label:'Time', required:true},
 	            
-	            {type:'text', name:'kitchen_charge', label:'Kitchen Charge', required:true},
+	            {type:'text', name:'kitchen_charge', label:'PA System Charge', required:true},
 	            {type:'text', name:'capacity', label:'Capacity', required:true}
 	           
 	            ]

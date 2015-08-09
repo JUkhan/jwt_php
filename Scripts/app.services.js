@@ -5,6 +5,8 @@ import widget3 from 'Scripts/Components/widget3/widget3Svc.js';
 import report from 'Scripts/Components/report/reportSvc.js';
 import signup from 'Scripts/Components/signup/signupSvc.js';
 import login from 'Scripts/Components/login/loginSvc.js';
+import userInRoles from 'Scripts/Components/userInRoles/userInRolesSvc.js';
+import WidgetViewRights from 'Scripts/Components/WidgetViewRights/WidgetViewRightsSvc.js';
 
 var moduleName='app.services';
 
@@ -14,6 +16,8 @@ angular.module(moduleName,[])
 .factory('widget3Svc', widget3)
 .factory('reportSvc', report)
 .factory('signupSvc', signup)
-.factory('loginSvc', login);
+.factory('loginSvc', login)
+.factory('userInRolesSvc', userInRoles)
+.factory('WidgetViewRightsSvc', WidgetViewRights);
 
 export default moduleName;

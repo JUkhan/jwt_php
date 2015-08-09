@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2015 at 01:47 PM
+-- Generation Time: Aug 10, 2015 at 01:13 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.5.24
 
@@ -24,9 +24,45 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addCustomer`(IN `name` VARCHAR(120), IN `email` VARCHAR(70), IN `phone` VARCHAR(12), IN `mobile` VARCHAR(12), IN `address` VARCHAR(200), IN `alt_num` VARCHAR(12), IN `ref` VARCHAR(120), IN `member` VARCHAR(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_user`()
     NO SQL
-INSERT into customer(customer.name, customer.email, customer.phone, customer.mobile, customer.address, customer.alt_number, customer.reference, customer.is_member) VALUES(name, email, phone, mobile, address, alt_num, ref, member)$$
+SELECT u.email, u.firstName, u.lastName,
+u.joinDate, u.phoneNumber,u.userName, u.id
+   FROM `jwt_user` as u$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_user_roles`()
+    NO SQL
+select u.userId, u.roleId, (select name from jwt_roles where u.roleId=jwt_roles.id) as role from jwt_user_roles as u$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_roles_by_userId`(IN `id` INT)
+    NO SQL
+select jwt_user_roles.roleId, (select jwt_roles.name FROM jwt_roles WHERE jwt_roles.id=jwt_user_roles.roleId) as role from jwt_user_roles WHERE jwt_user_roles.userId=id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_user_permission`(IN `id` INT)
+    NO SQL
+SELECT * from widgetviewrights WHERE 
+(widgetviewrights.roleId in(SELECT jwt_user_roles.roleId FROM jwt_user_roles WHERE jwt_user_roles.userId=id)) or(widgetviewrights.userId=id)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_widget_permission`(IN `id` INT, IN `wname` VARCHAR(50))
+    NO SQL
+SELECT * from widgetviewrights WHERE 
+(widgetviewrights.roleId in(SELECT jwt_user_roles.roleId FROM jwt_user_roles WHERE jwt_user_roles.userId=id) and widgetviewrights.widgetName=wname) or(widgetviewrights.widgetName=wname and widgetviewrights.userId=id)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_role_from_user`(IN `userId` INT, IN `roleId` INT)
+    NO SQL
+DELETE FROM jwt_user_roles WHERE jwt_user_roles.roleId=roleId and jwt_user_roles.userId=userId$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_temp_boking`()
+    NO SQL
+delete from hall_booking where  ( CURRENT_DATE - bdate)>3 and btype='Temporary'$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remove_user`(IN `userId` INT)
+    NO SQL
+DELETE FROM jwt_user WHERE jwt_user.id=userId$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addCustomer`(IN `name` VARCHAR(120), IN `email` VARCHAR(70), IN `phone` VARCHAR(12), IN `mobile` VARCHAR(12), IN `address` VARCHAR(200), IN `alt_num` VARCHAR(12), IN `ref` VARCHAR(120), IN `member` VARCHAR(10), IN `member_code` VARCHAR(255))
+    NO SQL
+INSERT into customer(customer.name, customer.email, customer.phone, customer.mobile, customer.address, customer.alt_number, customer.reference, customer.is_member, customer.member_code) VALUES(name, email, phone, mobile, address, alt_num, ref, member, member_code)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_booking`(IN `cid` VARCHAR(15), IN `hname` VARCHAR(100), IN `shift` VARCHAR(50), IN `ftype` VARCHAR(150), IN `bdate` DATE)
     NO SQL
@@ -125,12 +161,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_remove_booking`(IN `id` INT)
     NO SQL
 DELETE FROM hall_booking WHERE hall_booking.id=id$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateCustomer`(IN `name` VARCHAR(50), IN `email` VARCHAR(50), IN `phone` VARCHAR(12), IN `mobile` VARCHAR(12), IN `address` VARCHAR(200), IN `alt_num` VARCHAR(12), IN `ref` VARCHAR(123), IN `is_mem` VARCHAR(12), IN `id` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_updateCustomer`(IN `name` VARCHAR(50), IN `email` VARCHAR(50), IN `phone` VARCHAR(12), IN `mobile` VARCHAR(12), IN `address` VARCHAR(200), IN `alt_num` VARCHAR(12), IN `ref` VARCHAR(123), IN `is_mem` VARCHAR(12), IN `id` INT, IN `member_code` VARCHAR(255))
     NO SQL
 UPDATE customer
 
 set customer.name=name, customer.email=email, customer.phone=phone,
-customer.mobile=mobile, customer.address=address, customer.alt_number=alt_num, customer.reference=ref, customer.is_member=is_mem
+customer.mobile=mobile, customer.address=address, customer.alt_number=alt_num, customer.reference=ref, customer.is_member=is_mem,
+customer.member_code=member_code
 
 WHERE customer.id=id$$
 
@@ -180,15 +217,17 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `address` varchar(200) NOT NULL,
   `alt_number` varchar(12) NOT NULL,
   `reference` varchar(200) NOT NULL,
-  `is_member` varchar(2) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+  `member_code` varchar(255) DEFAULT NULL,
+  `is_member` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`id`, `email`, `phone`, `mobile`, `name`, `address`, `alt_number`, `reference`, `is_member`) VALUES
-(16, 'ethila@gmail.com', '123', '3221', 'Ethila', '', '', '', '1');
+INSERT INTO `customer` (`id`, `email`, `phone`, `mobile`, `name`, `address`, `alt_number`, `reference`, `member_code`, `is_member`) VALUES
+(27, 'as@sss.g', 'dfgd', 'dfgdf', 'wwww', 'dfgdf', 'dgf', '', '', 0),
+(28, 'sss@fff.cvf', 'dfgd', 'df', 'dddddddddd', 'dfgd', 'dfg', 'dfg', '', 0);
 
 -- --------------------------------------------------------
 
@@ -218,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `hall` (
 --
 
 INSERT INTO `hall` (`id`, `name`, `s1_m_rent`, `s1_m_sequrity`, `s1_nm_rent`, `s1_nm_security`, `s1_time`, `s2_m_rent`, `s2_m_security`, `s2_nm_rent`, `s2_nm_security`, `s2_time`, `capacity`, `kitchen_charge`) VALUES
-(9, 'Helmet', 10000, 2, 3, 4, '05:30 PM', 5, 7, 7, 8, '02:30 PM', '10', 9);
+(9, 'Anchor', 10000, 2, 3, 4, '05:30 PM', 5, 7, 7, 8, '02:30 PM', '10', 9);
 
 -- --------------------------------------------------------
 
@@ -242,14 +281,105 @@ CREATE TABLE IF NOT EXISTS `hall_booking` (
   `payback_date` date NOT NULL,
   `cancel_date` date NOT NULL,
   `refund_money` float NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `hall_booking`
 --
 
 INSERT INTO `hall_booking` (`id`, `cid`, `hall_name`, `shift`, `btype`, `ftype`, `bmoney`, `smoney`, `late_fee`, `sec_back`, `confirm_date`, `bdate`, `payback_date`, `cancel_date`, `refund_money`) VALUES
-(6, '6', 'Helmet', 'Shift2', 'Confirmed', 'Akdh', 7, 8, 2, 6, '2015-07-25', '2015-07-31', '2015-07-25', '2015-07-25', 1);
+(12, 'r21', 'Anchor', 'Shift1', 'Confirmed', 'Marriage', 10000, 2, 0, 2, '2015-08-08', '2015-08-03', '2015-08-08', '2015-08-08', 0),
+(13, '28', 'Anchor', 'Shift1', 'Temporary', 'Marriage Anniversary', NULL, NULL, NULL, NULL, NULL, '2015-08-20', '0000-00-00', '0000-00-00', 0),
+(14, '28', 'Anchor', 'Shift2', 'Confirmed', 'Marriage Anniversary', 7, 8, NULL, NULL, '2015-08-09', '2015-08-18', '0000-00-00', '0000-00-00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jwt_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `jwt_roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jwt_roles`
+--
+
+INSERT INTO `jwt_roles` (`id`, `name`) VALUES
+(1, 'Admin'),
+(2, 'SuperAdmin'),
+(3, 'User');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jwt_user`
+--
+
+CREATE TABLE IF NOT EXISTS `jwt_user` (
+  `id` int(11) NOT NULL,
+  `firstName` varchar(50) NOT NULL,
+  `lastName` varchar(50) NOT NULL,
+  `userName` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phoneNumber` varchar(15) NOT NULL,
+  `joinDate` date NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jwt_user`
+--
+
+INSERT INTO `jwt_user` (`id`, `firstName`, `lastName`, `userName`, `email`, `phoneNumber`, `joinDate`, `password`) VALUES
+(9, 'jasim', 'khan', 'jasim', 'jasim@gmail.com', '01913095519', '2015-08-08', 'sha256:1024:BkGoC7q93qjTUiQhulQPx50X2qzRHcwi:hdlrsk3NzG6Mtvbsfw0um0kId6WoKmLu');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jwt_user_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `jwt_user_roles` (
+  `userId` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jwt_user_roles`
+--
+
+INSERT INTO `jwt_user_roles` (`userId`, `roleId`) VALUES
+(9, 3),
+(9, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `widgetviewrights`
+--
+
+CREATE TABLE IF NOT EXISTS `widgetviewrights` (
+  `id` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `widgetName` varchar(100) NOT NULL,
+  `onlyView` tinyint(1) NOT NULL,
+  `create` tinyint(1) NOT NULL,
+  `update` tinyint(1) NOT NULL,
+  `delete` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `widgetviewrights`
+--
+
+INSERT INTO `widgetviewrights` (`id`, `roleId`, `userId`, `widgetName`, `onlyView`, `create`, `update`, `delete`) VALUES
+(9, 3, 0, 'widget1', 0, 0, 1, 0),
+(10, 1, 0, 'WidgetViewRights', 0, 1, 1, 1),
+(11, 1, 0, 'widget3', 0, 0, 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -274,6 +404,24 @@ ALTER TABLE `hall_booking`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `jwt_roles`
+--
+ALTER TABLE `jwt_roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `jwt_user`
+--
+ALTER TABLE `jwt_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `widgetviewrights`
+--
+ALTER TABLE `widgetviewrights`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -281,7 +429,7 @@ ALTER TABLE `hall_booking`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `hall`
 --
@@ -291,7 +439,22 @@ ALTER TABLE `hall`
 -- AUTO_INCREMENT for table `hall_booking`
 --
 ALTER TABLE `hall_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `jwt_roles`
+--
+ALTER TABLE `jwt_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `jwt_user`
+--
+ALTER TABLE `jwt_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `widgetviewrights`
+--
+ALTER TABLE `widgetviewrights`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

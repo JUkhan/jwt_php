@@ -16,10 +16,13 @@ constructor(scope, svc){
 	    });
 	}
 	print(row){
-	    console.log(row);
-	    var id=row.cid.replace('m',''), data=['<table>'];
+	   
+	    var id=row.cid.replace('r',''), data=['<table>'];
 	    this.svc.find('customer', id).success(res=>{
-	       
+	       if(res.data.length==0){
+	           alert('Customer has been removed from.');
+	           return;
+	       }
 	        var customer=res.data[0];
 	        data.push('<tr><td>Code : </td><td>'+row.cid+'</td></tr>');
 	        data.push('<tr><td>Name : </td><td>'+customer.name+'</td></tr>');
@@ -35,16 +38,27 @@ constructor(scope, svc){
 	         data.push('<tr><td>Confirm Date : </td><td>'+(row.confirm_date||'')+'</td></tr>');
 	          data.push('<tr><td>Booking Money : </td><td>'+(row.bmoney||'')+'</td></tr>');
 	        
-	         data.push('</table>')
+	         data.push('</table>');
+	         data.push('<br><br><br><br>');
+	         data.push('<b style="border-top:solid 1px black;margin-right:5em">Booking officer</b>');
+	         data.push('<b style="border-top:solid 1px black;margin-right:5em">Account officer  </b>');
+	         data.push('<b style="border-top:solid 1px black;margin-right:5em">GM</b>');
 	         this.printDoc('Booking Information', data.join(''));
 	    })
 	  
+	}
+	tempBooking(){
+	    this.svc.call_sp('remove_temp_boking').success(res=>{
+	        this.load_data();
+	       alert('Removed Successfully'); 
+	    });
 	}
     set_formGrid_options(){
 	    
 	     var grid={
 	        filter:true,limit:15,
 	        loadingText:'Loading...',
+	        buttons:[{text:'Remove Temporary Booking', className:'btn btn-default', onClick:this.tempBooking.bind(this)}],
 	        newItem:()=>{ this.formGrid.showForm().formRefresh(); },
 	        newItemText:'Add New Customer',
 	        columns:[
@@ -84,10 +98,14 @@ constructor(scope, svc){
 	
 	payment(row){
 	  
+	  if(row.confirm_date){
+	      alert("Pament already done.");
+	      return;
+	  }
 	    var msg=[], bmoney,smoney, that=this;
 	    var hall=this.halls.find(function(h){return h.name===row.hall_name;});
 	   
-	    if(row.cid.startsWith('m')){
+	    if(row.cid.startsWith('r')){
 	       if(row.shift==='Shift1'){
 	           bmoney=hall.s1_m_rent;
 	           smoney=hall.s1_m_sequrity;
@@ -136,6 +154,10 @@ constructor(scope, svc){
         
 	}
 	pay_back(row){
+	    
+	    if(row.sec_back){
+	        alert('Pay back already done'); return;
+	    }
 	     var msg=[], that=this;
 	     
 	      msg.push('<div><span style="width:120px;display:inline-block">Security</span> : <b>'+row.smoney+'</b></div>');
@@ -168,7 +190,10 @@ constructor(scope, svc){
         return Math.round((bdate-new Date())/(1000*60*60*24));
     }
 	cancel(row){
-	  
+	  if(row.cancel_date!== "0000-00-00"){
+	      alert('Booking already canceled');
+	      return;
+	  }
 	    var day=this.daydiff(row.bdate);
 	    var bmoney=parseFloat(row.bmoney);
 	    var calMoney=0;
@@ -178,10 +203,10 @@ constructor(scope, svc){
 	    else if(day>=90){
 	        calMoney=(bmoney*90)/100;
 	    }
-	    else if(day>=15 && dat<=30){
+	    else if(day>=15 && day<=30){
 	        calMoney=(bmoney*60)/100;
 	    }
-	    else if(day>=8 && dat<=14){
+	    else if(day>=8 && day<=14){
 	        calMoney=(bmoney*25)/100;
 	    }
 	    else if(day>=1 && day<=7){
@@ -236,26 +261,34 @@ constructor(scope, svc){
 	    params.push(item.ftype);
 	    params.push(item.bdate);
 	    var t=item.id?this.urow:item;
+	    
 	    if(this.list.find(function(x){return x.hall_name===t.hall_name && x.shift===t.shift && x.bdate==t.bdate;})){
 	        this.formGrid.showMessage('Not Available');
 	        return;
 	    }
-	    if(!item.id){
-	        this.svc.call_sp('sp_add_booking', params)
-	        .success((id)=>{
-                  this.load_data();
-    	          this.formGrid.showMessage('Added successfully');
-    	          this.formGrid.showGrid()
-	        });
-	    }else{
-	        params.shift(item.cid);
-	        params.push(item.id);
-	         this.svc.call_sp('sp_update_booking', params)
-	         .success(res=>{
-	              this.formGrid.showMessage('Updated successfully');
-	              this.formGrid.showGrid()
-	         });
-	    }
+	    var id=item.cid.replace('r','');
+	    this.svc.find('customer', id).success(res=>{
+	        if(res.data.length==0){
+	            alert('Invalid customer code');
+	            return;
+	        }
+    	    if(!item.id){
+    	        this.svc.call_sp('sp_add_booking', params)
+    	        .success((id)=>{
+                      this.load_data();
+        	          this.formGrid.showMessage('Added successfully');
+        	          this.formGrid.showGrid()
+    	        });
+    	    }else{
+    	        params.shift(item.cid);
+    	        params.push(item.id);
+    	         this.svc.call_sp('sp_update_booking', params)
+    	         .success(res=>{
+    	              this.formGrid.showMessage('Updated successfully');
+    	              this.formGrid.showGrid()
+    	         });
+    	    }
+	    });
 	}
 }
 widget3Ctrl.$inject=['$scope', 'widget3Svc'];
