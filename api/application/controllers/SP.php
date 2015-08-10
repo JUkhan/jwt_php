@@ -8,7 +8,7 @@ class SP extends CI_Controller {
 	}
 	private $userId;
 	private function authorize(){
-		return true;
+		
 		$arr=getallheaders();
 		if(isset($arr['Authorization'])){
 			//Bearer
@@ -18,6 +18,7 @@ class SP extends CI_Controller {
 				http_response_code(401);
 			}else{
 				$this->userId=$token->id;
+
 				return true;
 			}
 			
@@ -28,7 +29,59 @@ class SP extends CI_Controller {
 		}
 		return false;
 	}
-	
+	private function hasPermission($procName){
+		$procName=strtolower($procName);
+		$widgetName='';
+		$flag='';
+		if(JwtUtil::startsWith($procName, 'create_')){
+			$widgetName=str_replace("create_","",$procName);
+			$flag='create';
+		}
+		else if(JwtUtil::startsWith($procName, 'update_')){
+			$widgetName=str_replace("update_","",$procName);
+			$flag='update';
+		}
+		else if(JwtUtil::startsWith($procName, 'remove_') || JwtUtil::startsWith($procName, 'delete_')){
+			$widgetName=str_replace("remove_","",$procName);
+			$flag='remove';
+		}
+		if(JwtUtil::IsNullOrEmptyString($widgetName)){
+			return true;
+		}
+		
+		$arr=$this->sp_model->call_sp('get_user_permission', [$this->userId]);
+		
+		if(count($arr)>0){
+			foreach ($arr as  $row) {				
+				if(strtolower($row->widgetName)==$widgetName){
+
+					 switch ($flag) {
+					 	case 'create':
+					 		if($row->create=='1') return true;
+					 		http_response_code(401);
+							return false;
+					 		break;
+					 	case 'update':					 		
+					 		if($row->update=='1') return true;
+					 		http_response_code(401);
+							return false;
+					 		break;
+					 	case 'remove':					 		
+					 		if($row->delete=='1') return true;
+					 		http_response_code(401);
+							return false;
+					 		break;
+					 	default:
+					 		http_response_code(401);
+							return false;
+					 	break;
+					 }
+				}
+			}
+		}
+		http_response_code(401);
+		return false;
+	}
 	public function call(){
 		if(!$this->authorize()){return;}
 		$res=new stdClass();
@@ -38,8 +91,9 @@ class SP extends CI_Controller {
 			$data=$this->post();
 			
 			$this->load->model('sp_model'); 
-			 
-	  		$res->data = $this->sp_model->call_sp($data->sp_name, $data->sp_params);		
+			if($this->hasPermission($data->sp_name)){
+	  			$res->data = $this->sp_model->call_sp($data->sp_name, $data->sp_params);	
+	  		}	
 		
 		}catch(Exception $ex){
 			$res->success=FALSE;
@@ -90,9 +144,10 @@ class SP extends CI_Controller {
 		try{
 			$data=$this->post();
 			
-			$this->load->model('sp_model'); 
-			 
-	  		$res->data = $this->sp_model->remove($data->tableName, $data->id, $data->pk);		
+			 $this->load->model('sp_model'); 
+			 if($this->hasPermission('remove_'.$data->tableName)){
+	  			$res->data = $this->sp_model->remove($data->tableName, $data->id, $data->pk);
+	  		}		
 		
 		}catch(Exception $ex){
 			$res->success=FALSE;
@@ -127,8 +182,9 @@ class SP extends CI_Controller {
 			$data=$this->post();
 			
 			$this->load->model('sp_model'); 
-			 
-	  		$res->data = $this->sp_model->create($data->tableName, $data);		
+			if($this->hasPermission('create_'.$data->tableName)){
+	  			$res->data = $this->sp_model->create($data->tableName, $data);	
+	  		}	
 		
 		}catch(Exception $ex){
 			$res->success=FALSE;
@@ -151,8 +207,9 @@ class SP extends CI_Controller {
 			 unset($data->pk);
 			 unset($data->tableName);
 			 unset($data->id);
-			 
-	  		$res->data = $this->sp_model->update($tableName, $id, $data, $pk);		
+			 if($this->hasPermission('update_'. $tableName)){
+	  		 	$res->data = $this->sp_model->update($tableName, $id, $data, $pk);	
+	  		 }	
 		
 		}catch(Exception $ex){
 			$res->success=FALSE;

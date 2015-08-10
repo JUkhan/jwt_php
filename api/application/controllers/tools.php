@@ -50,8 +50,7 @@ class Tools extends CI_Controller {
 				$output=$this->app->getTemplate($name);
 			}
 		}
-
-		//echo 
+		
 		echo $output;
 	}
 	public function index()

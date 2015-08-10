@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2015 at 01:13 AM
+-- Generation Time: Aug 10, 2015 at 06:42 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.5.24
 
@@ -370,16 +370,19 @@ CREATE TABLE IF NOT EXISTS `widgetviewrights` (
   `create` tinyint(1) NOT NULL,
   `update` tinyint(1) NOT NULL,
   `delete` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `widgetviewrights`
 --
 
 INSERT INTO `widgetviewrights` (`id`, `roleId`, `userId`, `widgetName`, `onlyView`, `create`, `update`, `delete`) VALUES
-(9, 3, 0, 'widget1', 0, 0, 1, 0),
+(9, 3, 0, 'widget1', 0, 1, 1, 0),
 (10, 1, 0, 'WidgetViewRights', 0, 1, 1, 1),
-(11, 1, 0, 'widget3', 0, 0, 0, 0);
+(12, 1, 0, 'widget3', 0, 1, 1, 1),
+(13, 1, 0, 'userInRoles', 0, 1, 1, 1),
+(14, 1, 0, 'report', 0, 0, 0, 0),
+(15, 1, 0, 'widget2', 0, 1, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -454,7 +457,7 @@ ALTER TABLE `jwt_user`
 -- AUTO_INCREMENT for table `widgetviewrights`
 --
 ALTER TABLE `widgetviewrights`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
