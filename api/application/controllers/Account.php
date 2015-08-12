@@ -44,7 +44,7 @@ class Account extends CI_Controller {
  				$token=array();
  				$token['id']=$arr[0]->id;
  				$res->access_token=JWT::encode($token, $this->config->item('jwt_key'));
- 				
+ 				$res->id=$arr[0]->id;
  			}else{
  				$res->error='Invalid user name or password.';
  				http_response_code(401);

@@ -1,14 +1,51 @@
-<form class="form-login" role="form">
-    <h2 class="form-login-heading">Sign up</h2>
-    <input type="text" class="form-control" placeholder="Username" data-ng-model="vm.registration.userName" required autofocus>
-     <input type="text" class="form-control" placeholder="Firstname" data-ng-model="vm.registration.firstName" required autofocus>
-      <input type="text" class="form-control" placeholder="lastname" data-ng-model="vm.registration.lastName" required autofocus>
-       <input type="text" class="form-control" placeholder="email" data-ng-model="vm.registration.email" required autofocus>
-        <input type="text" class="form-control" placeholder="Phone Number" data-ng-model="vm.registration.phoneNumber"  autofocus>
-    <input type="password" class="form-control" placeholder="Password" data-ng-model="vm.registration.password" required>
-    <input type="password" class="form-control" placeholder="Confirm Password" data-ng-model="vm.registration.confirmPassword" required>
-    <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="vm.signUp()">Submit</button>
-    <div data-ng-hide="vm.message == ''" data-ng-class="(vm.savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-        {{vm.message}}
-    </div>
-</form>
+
+<div class="container" style="margin-top:30px">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <strong>Sign up</strong>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div data-ng-hide="vm.message == ''" data-ng-class="(vm.savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                                    {{vm.message}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>User Name</label>
+                            <input type="text" name="userName" class="form-control" data-ng-model="vm.registration.userName" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="userName" class="form-control" data-ng-model="vm.registration.firstName" required >
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="userName" class="form-control" data-ng-model="vm.registration.lastName" required >
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="userName" class="form-control" data-ng-model="vm.registration.email" required >
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="text" name="userName" class="form-control" data-ng-model="vm.registration.phoneNumber" required >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" data-ng-model="vm.registration.password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" name="password" class="form-control" data-ng-model="vm.registration.confirmPassword" required>
+                        </div>
+                        <button name="login" class="btn btn-sm btn-primary btn-login" ladda="waiting" data-ng-click="vm.signUp()" >Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>

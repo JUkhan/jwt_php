@@ -1,10 +1,10 @@
-<br>
+
 <div class="row">
     <div class="col-xs-2">
         <div class="panel panel-default">
             <div class="panel-heading">All Roles</div>
-            <ul class="list-group" ng-repeat="u in vm.roles">
-                <li class="list-group-item" ng-bind="u.name">Cras justo odio</li>
+            <ul class="list-group">
+                <li ng-repeat="u in vm.roles" class="list-group-item" ng-bind="u.name">Cras justo odio</li>
             </ul>
         </div>
          <div class="input-group">

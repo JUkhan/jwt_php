@@ -213,7 +213,7 @@ angular.module('jwt2').controller('mainController', ['$scope', '$http', '$modal'
                 info('File is not exist.'); return;
             }
             if (confirm('Are you sure you want to remove this file?')) {
-                http.get('JwtEx/RemoveFile/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
+                http.get('RemoveFile/?mode={0}&directoryName={1}&fileName={2}&ext={3}'.format(scope.dataMode, scope.items[scope.itemValue], fileName, ext))
                    .success(function (data) {
                        if (data.isSuccess) {
                            success(data.msg);

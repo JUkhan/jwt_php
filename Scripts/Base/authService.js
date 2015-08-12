@@ -7,7 +7,8 @@
     var _authentication = {
         isAuth: false,
         userName: "",
-        useRefreshTokens: false
+        useRefreshTokens: false,
+        userId:0
     };
 
     var _externalAuthData = {
@@ -39,15 +40,16 @@
         $http.post(serviceBase + 'api/account/login', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
            
             if (loginData.useRefreshTokens) {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
+                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: response.refresh_token, useRefreshTokens: true, userId:response.id });
             }
             else {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
+                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false, userId:response.id });
             }
             _authentication.isAuth = true;
             _authentication.userName = loginData.userName;
             _authentication.useRefreshTokens = loginData.useRefreshTokens;
-
+            _authentication.userId=response.id;
+            
             deferred.resolve(response);
 
         }).error(function (err, status) {
@@ -66,7 +68,7 @@
         _authentication.isAuth = false;
         _authentication.userName = "";
         _authentication.useRefreshTokens = false;
-
+        _authentication.userId=0;
     };
 
     var _fillAuthData = function () {
@@ -76,6 +78,7 @@
             _authentication.isAuth = true;
             _authentication.userName = authData.userName;
             _authentication.useRefreshTokens = authData.useRefreshTokens;
+            _authentication.userId=authData.userId;
         }
 
     };

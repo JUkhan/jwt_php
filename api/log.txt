@@ -1,1 +1,1 @@
-{"id":"10","roleId":"1","userId":"0","widgetName":"WidgetViewRights","onlyView":"0","create":"1","update":"1","delete":"1"}
+{"success":false,"id":10}

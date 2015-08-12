@@ -7,6 +7,7 @@ import signup from 'Scripts/Components/signup/signupSvc.js';
 import login from 'Scripts/Components/login/loginSvc.js';
 import userInRoles from 'Scripts/Components/userInRoles/userInRolesSvc.js';
 import WidgetViewRights from 'Scripts/Components/WidgetViewRights/WidgetViewRightsSvc.js';
+import root from 'Scripts/Layouts/root/rootSvc.js';
 
 var moduleName='app.services';
 
@@ -18,6 +19,7 @@ angular.module(moduleName,[])
 .factory('signupSvc', signup)
 .factory('loginSvc', login)
 .factory('userInRolesSvc', userInRoles)
-.factory('WidgetViewRightsSvc', WidgetViewRights);
+.factory('WidgetViewRightsSvc', WidgetViewRights)
+.factory('rootSvc', root);
 
 export default moduleName;

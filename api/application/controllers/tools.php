@@ -162,6 +162,23 @@ class Tools extends CI_Controller {
 		$this->load->view('json', array('output' => $res));
 		
 	}
+	public function IsFileExist(){		
+		$res=$this->app->IsFileExist($this->input->get('mode'), $this->input->get('directoryName'), $this->input->get('fileName'), $this->input->get('ext'));
+		$this->load->view('json', array('output' => $res));
+		
+	}
+	public function AddFile(){
+		$data=$this->post();
+		$res=$this->app->AddFile($this->input->get('mode'), $this->input->get('directoryName'), $this->input->get('fileName'), $this->input->get('ext'));
+		$this->load->view('json', array('output' => $res));
+		
+	}
+	public function RemoveFile(){
+		$data=$this->post();
+		$res=$this->app->RemoveFile($this->input->get('mode'), $this->input->get('directoryName'), $this->input->get('fileName'), $this->input->get('ext'));
+		$this->load->view('json', array('output' => $res));
+		
+	}
 	public function IsExist(){
 		$res=$this->app->IsExist($this->input->get('name'), $this->input->get('mode'));
 		$this->load->view('json', array('output' => $res));

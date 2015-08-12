@@ -496,6 +496,106 @@ class AppManager
             return  array( 'exist' => JwtUtil::folderExists($path)) ;
         
         }
+         public function IsFileExist($mode, $directoryName, $fileName, $ext){
+              if(!JwtUtil::endsWith($fileName,$ext)){
+                $fileName .= $ext;
+             }   
+            $path =  $this->rootPath; 
+            switch ($mode)
+            {
+               case "Base":
+                    $path .= "Scripts/Base/" . $fileName;                 
+                   
+                    break;
+                case "Layouts":
+                    $path .=  "Scripts/Layouts/$directoryName/$fileName";
+                  
+                    break;
+                case "Components":
+                    $path .=  "Scripts/Directives/$directoryName/$fileName";                   
+                   
+                    break;
+                case "Widgets":
+                    $path .=  "Scripts/Components/$directoryName/$fileName";
+                    
+                    break;
+                case "Modules":
+                    $path .=  "Scripts/Modules/$directoryName/$fileName";
+                   
+                    break;
+            }
+           
+            return  array( 'exist' => JwtUtil::fileExists($path)) ;
+        
+        }
+         public function AddFile($mode, $directoryName, $fileName, $ext){
+             if(!JwtUtil::endsWith($fileName,$ext)){
+                $fileName .= $ext;
+             }  
+            $path =  $this->rootPath; 
+            switch ($mode)
+            {
+               case "Base":
+                    $path .= "Scripts/Base/" . $fileName;                 
+                   
+                    break;
+                case "Layouts":
+                    $path .=  "Scripts/Layouts/$directoryName/$fileName";
+                  
+                    break;
+                case "Components":
+                    $path .=  "Scripts/Directives/$directoryName/$fileName";                   
+                   
+                    break;
+                case "Widgets":
+                    $path .=  "Scripts/Components/$directoryName/$fileName";
+                    
+                    break;
+                case "Modules":
+                    $path .=  "Scripts/Modules/$directoryName/$fileName";
+                   
+                    break;
+            }
+           
+            JwtUtil::putContent($path,'New File...');
+            $this->generateConfig();
+            return array('isSuccess'=>true);
+        
+        }
+        public function RemoveFile($mode, $directoryName, $fileName, $ext){
+             if(!JwtUtil::endsWith($fileName,$ext)){
+                $fileName .= $ext;
+             }  
+            $path =  $this->rootPath; 
+            switch ($mode)
+            {
+               case "Base":
+                    $path .= "Scripts/Base/" . $fileName;                 
+                   
+                    break;
+                case "Layouts":
+                    $path .=  "Scripts/Layouts/$directoryName/$fileName";
+                  
+                    break;
+                case "Components":
+                    $path .=  "Scripts/Directives/$directoryName/$fileName";                   
+                   
+                    break;
+                case "Widgets":
+                    $path .=  "Scripts/Components/$directoryName/$fileName";
+                    
+                    break;
+                case "Modules":
+                    $path .=  "Scripts/Modules/$directoryName/$fileName";
+                   
+                    break;
+            }
+           
+            unlink($path);
+            $this->generateConfig();
+            return array('isSuccess'=>true);
+        
+        }
         public function CreateItem($name, $mode){
            
             $codeGen = new CodeGen();
