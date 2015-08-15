@@ -166,11 +166,13 @@
     <div class="overlay">
         <div class="jwt-spinner"><b>Loading...</b></div>
     </div>
-    <script src="../../Scripts/lib/jquery.min.js"></script>
-    <script src="../../Scripts/lib/angular.min.js"></script>
-    <script src="../../Scripts/lib/angular-resource.min.js"></script>
-    <script src="../../Scripts/lib/angularui.js"></script>
-    <script src="../../Scripts/lib/angular-ui-router.min.js"></script>   
+	
+	<script src="../../Scripts/lib/jquery-2.1.1/jquery.min.js"></script>   
+	<script src="../../Scripts/lib/angular/angular.min.js"></script>	
+	<script src="../../Scripts/lib/angular/angular-resource.min.js"></script>
+	<script src="../../Scripts/lib/angular/angularui.js"></script>
+	<script src="../../Scripts/lib/angular/angular-ui-router.min.js"></script>
+	
     <script src="../../Scripts/tools/app2.js"></script>
     <script src="../../Scripts/tools/jwt.js"></script>
     <script src="../../Scripts/tools/mainController_jwt.js"></script>   
