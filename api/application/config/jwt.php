@@ -7,7 +7,7 @@ $config['app_builder']=TRUE;
 
 $config['has_template_authorization']=TRUE;
 
-$config['template_authorize_message']='You are not authorized for this content.';
+$config['template_authorize_message']='You are not authorized for this page.';
 $config['widget_ignore_list']=['root', 'login', 'signup'];
 
 $config['default_navigation']='root/nav1';

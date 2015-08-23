@@ -10,7 +10,8 @@ class Tools extends CI_Controller {
 
 	}
 	private $userId;
-	private function authorize(){		
+	private function authorize(){
+		if(!$this->get_config_item('has_template_authorization')){return true;}
 		$arr=getallheaders();
 		if(isset($arr['Authorization'])){			
 			$token=str_replace("Bearer ","",$arr['Authorization']);
@@ -42,6 +43,7 @@ class Tools extends CI_Controller {
 			return;
 		}
 		$output='<div class="alert alert-info not-auth">' . $this->get_config_item('template_authorize_message') . '</div>';
+		
 		if($this->authorize()){
 			$this->load->model('sp_model'); 			 
 		  	$data = $this->sp_model->call_sp('get_widget_permission', [$this->userId, $name]);
