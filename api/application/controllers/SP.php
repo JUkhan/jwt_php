@@ -157,7 +157,7 @@ class SP extends CI_Controller {
 		$this->load->view('json', array('output' => $res));
 	}
 	public function where(){
-		if(!$this->authorize()){return;}
+		//if(!$this->authorize()){return;}
 		$res=new stdClass();
 		$res->success=TRUE;
 		try{
